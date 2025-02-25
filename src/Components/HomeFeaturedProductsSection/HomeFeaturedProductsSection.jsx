@@ -88,57 +88,72 @@ export default function HomeFeaturedProductsSection() {
         <div className="flex flex-col lg:flex-row lg:gap-7">
           {/* Promotional Banner */}
           <div className="hidden lg:flex flex-col w-[26%] h-full gap-6 sticky top-0">
-  {/* Top Banner - Centered Content */}
-  <div className="relative h-1/2 bg-gradient-to-br from-blue-800 to-[#41075c] rounded-xl shadow-md overflow-hidden flex flex-col items-center justify-center text-center">
-    {/* Minimal Background Pattern */}
-    <div className="absolute inset-0 opacity-5">
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9ImRvdHMiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxjaXJjbGUgY3g9IjIiIGN5PSIyIiByPSIxIiBmaWxsPSIjZmZmIiAvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2RvdHMpIiAvPgo8L3N2Zz4K')]" />
-    </div>
+            {/* Top Banner - Centered Content */}
+            <div className="relative h-1/2 bg-gradient-to-br from-teal-950 via-indigo-900 to-teal-950 rounded-xl shadow-md overflow-hidden flex flex-col items-center justify-center text-center">
+              {/* Minimal Background Pattern */}
+              <div className="absolute inset-0 opacity-5">
+                <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9ImRvdHMiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxjaXJjbGUgY3g9IjIiIGN5PSIyIiByPSIxIiBmaWxsPSIjZmZmIiAvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2RvdHMpIiAvPgo8L3N2Zz4K')]" />
+              </div>
 
-    {/* Content */}
-    <div className="p-6 flex flex-col items-center justify-center h-full text-center">
-      {/* Label */}
-      <div className="bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
-        <span className="text-xs font-medium text-white">Best Seller</span>
-      </div>
+              {/* Content */}
+              <div className="p-6 flex flex-col items-center justify-center h-full text-center">
+                {/* Label */}
+                <div className="bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
+                  <span className="text-xs font-medium text-white">
+                    Best Seller
+                  </span>
+                </div>
 
-      {/* Product Info */}
-      <div className="flex flex-col items-center justify-center flex-grow py-6">
-        <img src={airpod} alt="Wireless Earbuds" className="w-36 h-36 object-contain mb-4 drop-shadow-md" />
-        <h2 className="text-xl font-semibold text-white mb-2">True Wireless Earbuds</h2>
-        <p className="text-white/70 text-sm mb-4">Immersive sound, all-day comfort</p>
-        <span className="font-bold text-white text-xl">2499 EGP</span>
-      </div>
+                {/* Product Info */}
+                <div className="flex flex-col items-center justify-center flex-grow py-6">
+                  <img
+                    src={airpod}
+                    alt="Wireless Earbuds"
+                    className="w-36 h-36 object-contain mb-4 drop-shadow-md"
+                  />
+                  <h2 className="text-xl font-semibold text-white mb-2">
+                    True Wireless Earbuds
+                  </h2>
+                  <p className="text-white/70 text-sm mb-4">
+                    Immersive sound, all-day comfort
+                  </p>
+                  <span className="font-bold text-white text-xl">2499 EGP</span>
+                </div>
 
-      {/* Button */}
-      <button className="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-all duration-200">
-        <ShoppingBag className="w-4 h-4" />
-        Buy Now
-      </button>
-    </div>
-  </div>
+                {/* Button */}
+                <button className="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-all duration-200">
+                  <ShoppingBag className="w-4 h-4" />
+                  Buy Now
+                </button>
+              </div>
+            </div>
 
-  {/* Bottom Banner - Centered Content */}
-  <div className="relative h-1/2 bg-indigo-900 rounded-xl shadow-md overflow-hidden flex flex-col items-center justify-center text-center">
-    <div className="p-6 flex flex-col items-center justify-center h-full text-center">
-      {/* Top Section */}
-      <Zap className="text-indigo-200 h-6 w-6 mb-3" />
-      <h2 className="text-2xl font-bold text-white mb-3">Summer Sale</h2>
-      <p className="text-indigo-200 text-sm mb-4">Get exclusive deals on all smartphones</p>
+            {/* Bottom Banner - Centered Content */}
+            <div className="relative h-1/2 bg-gradient-to-br from-teal-950 via-indigo-900 to-teal-950 rounded-xl shadow-md overflow-hidden flex flex-col items-center justify-center text-center">
+              <div className="p-6 flex flex-col items-center justify-center h-full text-center">
+                {/* Top Section */}
+                <Zap className="text-indigo-200 h-6 w-6 mb-3" />
+                <h2 className="text-2xl font-bold text-white mb-3">
+                  Summer Sale
+                </h2>
+                <p className="text-indigo-200 text-sm mb-4">
+                  Get exclusive deals on all smartphones
+                </p>
 
-      {/* Middle - Large Sale Number */}
-      <div className="text-5xl font-extrabold text-white mb-2">37%</div>
-      <div className="text-lg text-indigo-200 font-medium">OFF</div>
+                {/* Middle - Large Sale Number */}
+                <div className="text-5xl font-extrabold text-white mb-2">
+                  37%
+                </div>
+                <div className="text-lg text-indigo-200 font-medium">OFF</div>
 
-      {/* Bottom Button */}
-      <button className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-all duration-200">
-        Shop Collection
-        <ArrowRight className="w-4 h-4" />
-      </button>
-    </div>
-  </div>
-</div>
-
+                {/* Bottom Button */}
+                <button className="w-full py-3 mt-3 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-all duration-200">
+                  Shop Collection
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
 
           {/* Product Grid */}
           <div className="w-full">
@@ -161,7 +176,7 @@ export default function HomeFeaturedProductsSection() {
                     <img
                       src={product.image1}
                       alt={product.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-contain"
                     />
                     {product.discount && (
                       <span className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-sm text-sm">

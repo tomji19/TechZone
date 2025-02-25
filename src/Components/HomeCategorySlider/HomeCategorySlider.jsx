@@ -20,7 +20,7 @@ export default function CategoryCards() {
       <div className="relative w-full">
         <div className="flex items-center justify-center">
           <div className="w-full relative">
-            <h1 className="mb-8 sm:mb-12 md:mb-16 lg:mb-20 text-3xl sm:text-4xl md:text-5xl text-center font-semibold heading-font ">
+            <h1 className="mb-8 sm:mb-12 md:mb-16 lg:mb-20 text-3xl sm:text-4xl md:text-5xl text-center font-semibold heading-font">
               Categories
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-12 justify-items-center">
@@ -34,23 +34,23 @@ export default function CategoryCards() {
                   }`}
                 >
                   {item.isPromo ? (
-                    <div className="w-56 h-56 flex flex-col items-center justify-center bg-gradient-to-br from-[#ffffff] to-[#ffffff] rounded-lg border-2 border-black">
-                    <div className="text-xs font-bold uppercase tracking-wider text-black bg-black/10 px-3 py-1 rounded-full">
-                      Limited Time Offer
+                    <div className="w-56 h-56 flex flex-col items-center justify-center bg-gradient-to-br from-teal-950 via-indigo-900 to-teal-950 rounded-lg">
+                      <div className="text-[0.7rem] font-medium text-white bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
+                        Limited Time Offer
+                      </div>
+                      <div className="mt-4 text-4xl font-extrabold text-white text-center">
+                        20% OFF
+                      </div>
+                      <div className="mt-2 text-sm font-semibold text-white text-center">
+                        On selected items
+                      </div>
+                      <a
+                        href="#"
+                        className="mt-4 px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-md text-sm font-medium transition-all duration-200"
+                      >
+                        Shop Now
+                      </a>
                     </div>
-                    <div className="mt-4 text-4xl font-extrabold text-black text-center">
-                      20% OFF
-                    </div> 
-                    <div className="mt-2 text-sm font-semibold text-black text-center">
-                      On selected items
-                    </div>
-                    <a
-                      href="#"
-                      className="mt-4 px-6 py-2 bg-black text-white rounded-full text-sm font-medium transition-all duration-200 hover:bg-black/70"
-                    >
-                      Shop Now
-                    </a>
-                  </div>
                   ) : (
                     <>
                       <div className="sm:absolute sm:-top-8 md:-top-3 transform transition-transform duration-300 group-hover:-translate-y-2 xs:mb-4">

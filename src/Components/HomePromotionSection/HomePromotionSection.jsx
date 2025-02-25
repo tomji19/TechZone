@@ -112,17 +112,18 @@ const HomePromotionSection = () => {
 
   if (!product) return null;
 
-  const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+  const hasDiscount =
+    product.originalPrice && product.originalPrice > product.price;
 
   return (
     <section className="py-5 px-4 md:px-16">
-      <div className="w-full p-4 md:p-8 relative rounded-xl overflow-hidden bg-gradient-to-br from-indigo-950 via-indigo-900 ">
+      <div className="w-full p-4 md:p-8 relative rounded-xl overflow-hidden bg-gradient-to-br from-teal-950 via-indigo-900 to-teal-950">
         {/* Background Pattern */}
         <div className="absolute inset-0">
-          <div 
+          <div
             className="absolute top-0 left-0 w-full h-full bg-repeat"
             style={{
-              opacity: 0.8
+              opacity: 0.8,
             }}
           />
           {/* Gradient overlay */}

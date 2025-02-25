@@ -8,7 +8,7 @@ export default function HomeHotDeals() {
     <section className="py-4 px-4 sm:py-5 sm:px-6 lg:px-16">
       <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row w-full gap-4">
         {/* First Deal */}
-        <div className="w-full lg:w-1/2 bg-gradient-to-br from-blue-800 to-[#41075c] rounded-xl shadow-md overflow-hidden">
+        <div className="w-full lg:w-1/2 bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 rounded-xl shadow-md overflow-hidden">
           <div className="flex flex-col lg:flex-row relative">
             {/* Minimal Background Pattern */}
             <div className="absolute inset-0 opacity-5">
@@ -37,7 +37,7 @@ export default function HomeHotDeals() {
             <div className="lg:w-1/2 h-48 sm:h-64 lg:h-auto flex justify-center items-center p-6">
               <img
                 src={deal1}
-                className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-lg transform transition-transform duration-300 hover:scale-105"
+                className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-lg"
                 alt="Apple Homepod Mini"
               />
             </div>
@@ -45,7 +45,7 @@ export default function HomeHotDeals() {
         </div>
 
         {/* Second Deal */}
-        <div className="w-full lg:w-1/2 bg-gradient-to-br from-indigo-900 to-[#3e005a] rounded-xl shadow-md overflow-hidden">
+        <div className="w-full lg:w-1/2 bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 rounded-xl shadow-md overflow-hidden">
           <div className="flex flex-col lg:flex-row relative">
             {/* Minimal Background Pattern */}
             <div className="absolute inset-0 opacity-5">
@@ -74,7 +74,7 @@ export default function HomeHotDeals() {
             <div className="lg:w-1/2 h-48 sm:h-64 lg:h-auto flex justify-center items-center p-6">
               <img
                 src={deal2}
-                className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-lg transform transition-transform duration-300 hover:scale-105"
+                className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-lg"
                 alt="Xiaomi Mi 11 Ultra"
               />
             </div>

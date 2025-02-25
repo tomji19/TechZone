@@ -12,11 +12,12 @@ const XboxSlider = () => {
       heading: "Xbox Series X",
       description:
         "Save up to 50% on select Xbox games.\nGet 3 months of PC Game Pass for $2 USD.",
-      color: "#4f46e5", // Indigo color from header
-      buttonColor: "from-blue-600 to-indigo-600",
+      color: "#14b8a6", // A bright teal to contrast the dark background
+      buttonColor: "from-teal-600 to-indigo-600",
       price: "$299",
       consoleColor: "black",
-      backgroundColor: "bg-blue-100", // Solid background color
+      backgroundColor:
+        "bg-gradient-to-br from-teal-950 via-indigo-900 to-teal-950", // Solid background color
       image: "/src/assets/Image22.png",
     },
     {
@@ -24,11 +25,12 @@ const XboxSlider = () => {
       heading: "Xbox Series S",
       description:
         "Experience gaming in style.\nIncludes exclusive digital content package.",
-      color: "#7c3aed", // Purple color from header
-      buttonColor: "from-indigo-600 to-purple-700",
+      color: "#4f46e5", // A strong indigo for good contrast
+      buttonColor: "from-blue-700 to-indigo-800",
       price: "$329",
       consoleColor: "green",
-      backgroundColor: "bg-indigo-100", // Solid background color
+      backgroundColor:
+        "bg-gradient-to-br from-blue-950 via-gray-900 to-indigo-950", // Solid background color
       image: "/src/assets/Image333.png",
     },
     {
@@ -36,11 +38,12 @@ const XboxSlider = () => {
       heading: "Xbox Elite Bundle",
       description:
         "Includes 2 controllers and 3 months of Xbox Game Pass Ultimate.\nFree shipping included.",
-      color: "#db2777", // Pink color from header
+      color: "#e879f9", // A soft but vibrant pink for contrast
       buttonColor: "from-purple-700 to-pink-600",
       price: "$349",
       consoleColor: "white",
-      backgroundColor: "bg-purple-100", // Solid background color
+      backgroundColor:
+        "bg-gradient-to-br from-indigo-950 via-purple-900 to-black", // Solid background color
       image: "/src/assets/Image44.png",
     },
   ];
@@ -76,7 +79,7 @@ const XboxSlider = () => {
       if (!isLoading) {
         setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
       }
-    }, 5000);
+    }, 9000);
 
     return () => clearInterval(timer);
   }, [isLoading]);
@@ -152,10 +155,10 @@ const XboxSlider = () => {
                     {slide.title}
                   </span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 mb-4 text-gray-800 tracking-tight">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 mb-4 text-white tracking-tight">
                   {slide.heading}
                 </h2>
-                <p className="text-gray-600 text-sm sm:text-base whitespace-pre-line mb-6 max-w-md mx-auto md:mx-0 leading-relaxed">
+                <p className="text-gray-50 text-sm sm:text-base whitespace-pre-line mb-6 max-w-md mx-auto md:mx-0 leading-relaxed">
                   {slide.description}
                 </p>
                 <div className="flex justify-center md:justify-start">
@@ -198,14 +201,14 @@ const XboxSlider = () => {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-30 p-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-30 p-3 bg-white/10 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
           aria-label="Previous slide"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-30 p-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-30 p-3 bg-white/10 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
           aria-label="Next slide"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -219,8 +222,8 @@ const XboxSlider = () => {
               onClick={() => setCurrentSlide(index)}
               className={`h-2 rounded-full transition-all ${
                 index === currentSlide
-                  ? "w-8 sm:w-10 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md"
-                  : "w-2 bg-gray-300 hover:bg-gray-400"
+                  ? "w-8 sm:w-10 bg-white/40 shadow-md"
+                  : "w-2 bg-white/10 hover:bg-gray-400"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />

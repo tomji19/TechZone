@@ -86,7 +86,7 @@ export default function HomeCustomersAlsoBought() {
                     <img
                       src={product.image1}
                       alt={product.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-contain"
                     />
                     {product.discount && (
                       <span className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-sm text-sm">
