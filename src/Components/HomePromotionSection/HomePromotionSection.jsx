@@ -117,7 +117,7 @@ const HomePromotionSection = () => {
 
   return (
     <section className="py-5 px-4 md:px-16">
-      <div className="w-full p-4 md:p-8 relative rounded-xl overflow-hidden bg-gradient-to-br from-teal-950 via-indigo-900 to-teal-950">
+      <div className="w-full p-4 md:p-8 relative rounded-xl overflow-hidden bg-gradient-to-br from-indigo-950 via-indigo-900 border-2 border-opacity-10">
         {/* Background Pattern */}
         <div className="absolute inset-0">
           <div
@@ -185,7 +185,7 @@ const HomePromotionSection = () => {
               <img
                 src={product.image1 || "/api/placeholder/800/600"}
                 alt={product.name}
-                className="relative z-10 w-full h-full object-contain p-6 product-image"
+                className="relative z-10 object-cover p-6 transform transition-transform duration-300 product-image"
               />
             </div>
           </div>

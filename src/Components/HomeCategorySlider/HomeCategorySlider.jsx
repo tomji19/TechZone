@@ -34,19 +34,19 @@ export default function CategoryCards() {
                   }`}
                 >
                   {item.isPromo ? (
-                    <div className="w-56 h-56 flex flex-col items-center justify-center bg-gradient-to-br from-teal-950 via-indigo-900 to-teal-950 rounded-lg">
-                      <div className="text-[0.7rem] font-medium text-white bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
+                    <div className="w-56 h-56 flex flex-col items-center justify-center rounded-lg border-black border-2">
+                      <div className="text-[0.7rem] font-medium text-black bg-black/10 px-3 py-1 rounded-full backdrop-blur-sm">
                         Limited Time Offer
                       </div>
-                      <div className="mt-4 text-4xl font-extrabold text-white text-center">
+                      <div className="mt-4 text-4xl font-extrabold text-black text-center">
                         20% OFF
                       </div>
-                      <div className="mt-2 text-sm font-semibold text-white text-center">
+                      <div className="mt-2 text-sm font-semibold text-black text-center">
                         On selected items
                       </div>
                       <a
                         href="#"
-                        className="mt-4 px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-md text-sm font-medium transition-all duration-200"
+                        className="mt-4 px-6 py-2 bg-black/10 hover:bg-black/20 text-black rounded-md text-sm font-medium transition-all duration-200"
                       >
                         Shop Now
                       </a>

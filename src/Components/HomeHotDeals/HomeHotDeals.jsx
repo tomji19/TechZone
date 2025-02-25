@@ -1,43 +1,36 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import classes from "../HomeHotDeals/HomeHotDeals.module.css";
 import deal1 from "../../assets/hotdeal1.png";
 import deal2 from "../../assets/hotdeal2.png";
+// import products from "../../data/products.json";
 
 export default function HomeHotDeals() {
   return (
     <section className="py-4 px-4 sm:py-5 sm:px-6 lg:px-16">
       <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row w-full gap-4">
         {/* First Deal */}
-        <div className="w-full lg:w-1/2 bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 rounded-xl shadow-md overflow-hidden">
-          <div className="flex flex-col lg:flex-row relative">
-            {/* Minimal Background Pattern */}
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9ImRvdHMiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxjaXJjbGUgY3g9IjIiIGN5PSIyIiByPSIxIiBmaWxsPSIjZmZmIiAvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2RvdHMpIiAvPgo8L3N2Zz4K')]" />
-            </div>
-
+        <div className="w-full lg:w-1/2 bg-gradient-to-br from-indigo-100 via-indigo-200 to-white border border-indigo-300 shadow-md rounded-lg overflow-hidden">
+          <div className="flex flex-col lg:flex-row">
             {/* Content */}
-            <div className="p-6 lg:p-8 flex flex-col justify-center lg:w-1/2 relative z-10">
-              <span className="px-3 py-1 text-xs font-medium bg-white/10 text-white rounded-full w-fit mb-4 backdrop-blur-sm">
-                NEW ARRIVAL
+            <div className="p-6 lg:p-8 flex flex-col justify-center lg:w-1/2">
+              <span className="px-3 py-1 text-sm font-medium bg-blue-500 text-white rounded-full w-fit mb-4">
+                INTRODUCING
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold text-white mb-2 max-w-[17rem] break-words">
-                Apple HomePod Mini
+              <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold text-gray-900 mb-2 max-w-[17rem] break-words heading-font">
+                New Apple Homepod Mini
               </h2>
-              <p className="text-white/70 mb-6 max-w-[20rem] break-words text-sm">
-                Jam-packed with innovation, HomePod mini delivers unexpectedly
-                powerful sound.
+              <p className="text-gray-600 mb-6 max-w-[20rem] break-words body-font ">
+                Jam-packed with innovation, HomePod mini delivers unexpectedly.
               </p>
-              <button className="bg-white/10 hover:bg-white/20 text-white font-medium px-6 py-3 rounded-lg w-fit flex items-center gap-2 transition-all duration-200 text-sm">
-                Shop Now
-                <ArrowRight className="w-4 h-4" />
+              <button className="w-[50%] py-3 mt-3 bg-gradient-to-r from-[#004AAD] to-[#1D267D] text-white rounded-md shadow-md text-xs hover:from-[#1D267D] hover:to-[#004AAD] transition-all duration-300 transform hover:scale-105">
+                SHOP NOW →
               </button>
             </div>
-
             {/* Image */}
-            <div className="lg:w-1/2 h-48 sm:h-64 lg:h-auto flex justify-center items-center p-6">
+            <div className="lg:w-1/2 h-48 sm:h-64 lg:h-auto flex justify-center items-center">
               <img
                 src={deal1}
-                className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-lg"
+                className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain"
                 alt="Apple Homepod Mini"
               />
             </div>
@@ -45,36 +38,28 @@ export default function HomeHotDeals() {
         </div>
 
         {/* Second Deal */}
-        <div className="w-full lg:w-1/2 bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 rounded-xl shadow-md overflow-hidden">
+        <div className="w-full lg:w-1/2 bg-gradient-to-br from-gray-900 via-indigo-950 to-amber-900 border border-indigo-800 shadow-2xl rounded-lg overflow-hidden">
           <div className="flex flex-col lg:flex-row relative">
-            {/* Minimal Background Pattern */}
-            <div className="absolute inset-0 opacity-5">
-              <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9ImRvdHMiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxjaXJjbGUgY3g9IjIiIGN5PSIyIiByPSIxIiBmaWxsPSIjZmZmIiAvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2RvdHMpIiAvPgo8L3N2Zz4K')]" />
-            </div>
-
             {/* Content */}
-            <div className="p-6 lg:p-8 flex flex-col justify-center lg:w-1/2 relative z-10">
-              <span className="px-3 py-1 text-xs font-medium bg-white/10 text-white rounded-full w-fit mb-4 backdrop-blur-sm">
-                EXCLUSIVE OFFER
+            <div className="p-6 lg:p-8 flex flex-col justify-center lg:w-1/2">
+              <span className="px-3 py-1 text-sm font-medium bg-yellow-400 text-black rounded-full w-fit mb-4">
+                INTRODUCING NEW
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold text-white mb-2 max-w-[17rem] break-words">
-                Xiaomi Mi 11 Ultra
+              <h2 className="text-2xl sm:text-3xl lg:text-3xl font-bold text-white mb-2 max-w-[17rem] break-words heading-font">
+                Xiaomi Mi 11 Ultra 12GB+256GB
               </h2>
-              <p className="text-white/70 mb-6 max-w-[20rem] break-words text-sm">
-                12GB+256GB | Revolutionary camera system with pro-grade
-                features.
+              <p className="text-gray-400 mb-6 max-w-[20rem] break-words body-font">
+                *Data provided by internal laboratories. Industry measurment.
               </p>
-              <button className="bg-white/10 hover:bg-white/20 text-white font-medium px-6 py-3 rounded-lg w-fit flex items-center gap-2 transition-all duration-200 text-sm">
-                Shop Now
-                <ArrowRight className="w-4 h-4" />
+              <button className="w-[50%] py-3 mt-3 bg-gradient-to-r from-[#004AAD] to-[#1D267D] text-white rounded-md shadow-md text-xs hover:from-[#1D267D] hover:to-[#004AAD] transition-all duration-300 transform hover:scale-105">
+                SHOP NOW →
               </button>
             </div>
-
             {/* Image */}
-            <div className="lg:w-1/2 h-48 sm:h-64 lg:h-auto flex justify-center items-center p-6">
+            <div className="lg:w-1/2 h-48 sm:h-64 lg:h-auto flex justify-center items-center">
               <img
                 src={deal2}
-                className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain drop-shadow-lg"
+                className="w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-contain"
                 alt="Xiaomi Mi 11 Ultra"
               />
             </div>
