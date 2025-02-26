@@ -1,7 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Heart, ShoppingCart, Filter } from "lucide-react";
+import { Heart, ShoppingCart, Filter, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Components/CartContext/CartContext";
+
+// Toast Component
+const Toast = ({ message, product, onClose }) => (
+  <div 
+    className="fixed bottom-4 right-4 bg-white border border-indigo-500/20 shadow-lg rounded-lg p-4 animate-slide-up"
+    style={{
+      animation: 'slideUp 0.3s ease-out',
+      zIndex: 1000,
+    }}
+  >
+    <div className="flex items-center gap-3">
+      <div className="bg-gradient-to-r from-blue-700 to-indigo-900 rounded-full p-1.5">
+        <Check className="w-5 h-5 text-white" />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-medium text-gray-900">Added to Cart!</p>
+        <p className="text-xs text-indigo-600">{product?.name}</p>
+      </div>
+    </div>
+  </div>
+);
 
 export default function Laptops() {
   const [products, setProducts] = useState([]);
@@ -11,6 +32,7 @@ export default function Laptops() {
   const [selectedStockStatus, setSelectedStockStatus] = useState("");
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [toast, setToast] = useState(null);
   const navigate = useNavigate();
   const { addToCart, cartItems } = useCart();
 
@@ -38,6 +60,14 @@ export default function Laptops() {
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
     addToCart(product);
+    
+    // Show toast
+    setToast({ message: "Product added to cart", product });
+
+    // Hide toast after 3 seconds
+    setTimeout(() => {
+      setToast(null);
+    }, 3000);
   };
 
   const handlePriceRangeChange = (e) => {
@@ -56,6 +86,7 @@ export default function Laptops() {
     return isCategoryMatch && isStockStatusMatch && isPriceRangeMatch;
   });
 
+  // FilterSection component remains the same...
   const FilterSection = () => {
     return (
       <div className="space-y-6">
@@ -241,7 +272,7 @@ export default function Laptops() {
                     <img
                       src={product.image1}
                       alt={product.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-contain transition-transform duration-300"
                     />
                     {product.discount && (
                       <span className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-sm text-sm">
@@ -287,11 +318,33 @@ export default function Laptops() {
                     </div>
                   </div>
                 </div>
-              )}
-            )}
+              );
+            })}
           </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {toast && <Toast {...toast} onClose={() => setToast(null)} />}
+
+      {/* Animation styles */}
+      <style>
+        {`
+          @keyframes slideUp {
+            from {
+              transform: translateY(100%);
+              opacity: 0;
+            }
+            to {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
+          .animate-slide-up {
+            animation: slideUp 0.3s ease-out;
+          }
+        `}
+      </style>
     </section>
   );
 }

@@ -1,7 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Heart, ShoppingCart, Filter } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Heart, ShoppingCart, Filter, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Components/CartContext/CartContext";
+
+// Toast Component
+const Toast = ({ message, product, onClose }) => (
+  <div 
+    className="fixed bottom-4 right-4 bg-white border border-indigo-500/20 shadow-lg rounded-lg p-4 animate-slide-up"
+    style={{
+      animation: 'slideUp 0.3s ease-out',
+      zIndex: 1000,
+    }}
+  >
+    <div className="flex items-center gap-3">
+      <div className="bg-gradient-to-r from-blue-700 to-indigo-900 rounded-full p-1.5">
+        <Check className="w-5 h-5 text-white" />
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm font-medium text-gray-900">Added to Cart!</p>
+        <p className="text-xs text-indigo-600">{product?.name}</p>
+      </div>
+    </div>
+  </div>
+);
 
 export default function Shop() {
   const [products, setProducts] = useState([]);
@@ -11,8 +32,7 @@ export default function Shop() {
   const [selectedStockStatus, setSelectedStockStatus] = useState("");
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const filterRef = useRef(null);
+  const [toast, setToast] = useState(null);
   const navigate = useNavigate();
   const { addToCart, cartItems } = useCart();
 
@@ -33,19 +53,6 @@ export default function Shop() {
     fetchProducts();
   }, []);
 
-  // Handle scroll event to determine when to make filters sticky
-  useEffect(() => {
-    const handleScroll = () => {
-      if (filterRef.current) {
-        const filterPosition = filterRef.current.getBoundingClientRect().top;
-        setIsScrolled(filterPosition <= 20); // 20px from top of viewport
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const handleProductClick = (product) => {
     navigate(`/product/${product.id}`, { state: { product } });
   };
@@ -53,6 +60,14 @@ export default function Shop() {
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
     addToCart(product);
+    
+    // Show toast
+    setToast({ message: "Product added to cart", product });
+
+    // Hide toast after 3 seconds
+    setTimeout(() => {
+      setToast(null);
+    }, 3000);
   };
 
   const handlePriceRangeChange = (e) => {
@@ -61,10 +76,8 @@ export default function Shop() {
   };
 
   const filteredProducts = products.filter((product) => {
-    const isCategoryMatch =
-      !selectedCategory || product.category === selectedCategory;
-    const isStockStatusMatch =
-      !selectedStockStatus ||
+    const isCategoryMatch = !selectedCategory || product.category === selectedCategory;
+    const isStockStatusMatch = !selectedStockStatus || 
       (selectedStockStatus === "In Stock" && product.stock > 0) ||
       (selectedStockStatus === "Out of Stock" && product.stock === 0);
     const isPriceRangeMatch =
@@ -75,13 +88,7 @@ export default function Shop() {
 
   const FilterSection = () => {
     return (
-      <div
-        className={`space-y-6 ${
-          isScrolled
-            ? "fixed top-4 transition-all duration-300 w-[calc(25%-24px)]"
-            : ""
-        }`}
-      >
+      <div className="space-y-6">
         <div className="relative overflow-hidden bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
           {/* Background with gradient and pattern */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-indigo-600/5 to-purple-700/5 rounded-xl -z-10">
@@ -89,25 +96,14 @@ export default function Shop() {
               <div className="absolute left-0 top-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9ImhleGFnb25zIiB3aWR0aD0iNTAiIGhlaWdodD0iNDMuMyIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDMwKSI+CiAgICAgIDxwYXRoIGQ9Ik0yNSAyOC41NjY1TDEyLjUgNDMuMyAwIDI4LjU2NjUgMTIuNSAxMy44MzMgMjUgMjguNTY2NXpNMzcuNSA0My4zTDI1IDI4LjU2NjUgMzcuNSAxMy44MzMgNTAgMjguNTY2NSAzNy41IDQzLjN6IiBzdHJva2U9IiMwMDAiIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS4yIi8+CiAgICA8L3BhdHRlcm4+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjaGV4YWdvbnMpIiAvPgo8L3N2Zz4K')]" />
             </div>
           </div>
-
+          
           <h2 className="text-lg font-semibold mb-6 text-indigo-900 border-b border-indigo-100/70 pb-4 flex items-center">
-            <svg
-              className="w-5 h-5 mr-2 text-indigo-600"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3 4.5H17M3 12H17M3 19.5H17M21 4.5V19.5M21 4.5L18 7.5M21 4.5L24 7.5M21 19.5L18 16.5M21 19.5L24 16.5"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+            <svg className="w-5 h-5 mr-2 text-indigo-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 4.5H17M3 12H17M3 19.5H17M21 4.5V19.5M21 4.5L18 7.5M21 4.5L24 7.5M21 19.5L18 16.5M21 19.5L24 16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             Filters
           </h2>
-
+          
           <div className="space-y-8">
             {/* Categories Section */}
             <div className="transform transition-all duration-300">
@@ -116,35 +112,25 @@ export default function Shop() {
                 Categories
               </h3>
               <div className="space-y-3">
-                {[
-                  "All",
-                  "Laptops",
-                  "Gaming Consoles",
-                  "Smartphones",
-                  "Wearables & Accessories",
-                  "PC Components",
-                ].map((category) => (
-                  <label
-                    key={category}
-                    className="flex items-center group cursor-pointer"
-                  >
-                    <input
-                      type="radio"
-                      name="category"
-                      checked={
-                        selectedCategory ===
-                        (category === "All" ? "" : category)
-                      }
-                      onChange={() =>
-                        setSelectedCategory(category === "All" ? "" : category)
-                      }
-                      className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 transition-all duration-300"
-                    />
-                    <span className="ml-3 text-sm text-gray-600 group-hover:text-indigo-600 transition-colors duration-300">
-                      {category}
-                    </span>
-                  </label>
-                ))}
+                {["All", "Laptops", "Gaming Consoles", "Smartphones", "Wearables & Accessories", "PC Components"].map(
+                  (category) => (
+                    <label 
+                      key={category} 
+                      className="flex items-center group cursor-pointer"
+                    >
+                      <input
+                        type="radio"
+                        name="category"
+                        checked={selectedCategory === (category === "All" ? "" : category)}
+                        onChange={() => setSelectedCategory(category === "All" ? "" : category)}
+                        className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 transition-all duration-300"
+                      />
+                      <span className="ml-3 text-sm text-gray-600 group-hover:text-indigo-600 transition-colors duration-300">
+                        {category}
+                      </span>
+                    </label>
+                  )
+                )}
               </div>
             </div>
 
@@ -156,19 +142,15 @@ export default function Shop() {
               </h3>
               <div className="space-y-3">
                 {["All", "In Stock", "Out of Stock"].map((status) => (
-                  <label
-                    key={status}
+                  <label 
+                    key={status} 
                     className="flex items-center group cursor-pointer"
                   >
                     <input
                       type="radio"
                       name="stockStatus"
-                      checked={
-                        selectedStockStatus === (status === "All" ? "" : status)
-                      }
-                      onChange={() =>
-                        setSelectedStockStatus(status === "All" ? "" : status)
-                      }
+                      checked={selectedStockStatus === (status === "All" ? "" : status)}
+                      onChange={() => setSelectedStockStatus(status === "All" ? "" : status)}
                       className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 transition-all duration-300"
                     />
                     <span className="ml-3 text-sm text-gray-600 group-hover:text-indigo-600 transition-colors duration-300">
@@ -215,9 +197,11 @@ export default function Shop() {
                     />
                   </div>
                 </div>
-
+                
                 {/* Apply button */}
-                <button className="w-full py-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg transition-all duration-300 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button
+                  className="w-full py-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg transition-all duration-300 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
                   Apply Filter
                 </button>
               </div>
@@ -261,20 +245,14 @@ export default function Shop() {
       </div>
 
       <div className="flex flex-col md:flex-row gap-6">
-        {/* Sidebar container - this remains fixed in position */}
-        <div
-          ref={filterRef}
-          className={`
-            md:w-1/4 
-            ${isMobileFilterOpen ? "block" : "hidden"} 
-            md:block 
-            transition-all 
-            duration-300
-          `}
-        >
-          {/* If scrolled, we create a placeholder div that takes up the same space */}
-          {isScrolled && <div className="invisible h-[800px]"></div>}
-
+        {/* Sidebar */}
+        <div className={`
+          md:w-1/4 
+          ${isMobileFilterOpen ? 'block' : 'hidden'} 
+          md:block 
+          transition-all 
+          duration-300
+        `}>
           <FilterSection />
         </div>
 
@@ -293,12 +271,11 @@ export default function Shop() {
                     <img
                       src={product.image1}
                       alt={product.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-contain transition-transform duration-300"
                     />
                     {product.discount && (
                       <span className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-sm text-sm">
-                        Sale
-                      </span>
+                        Sale</span>
                     )}
                   </div>
                   <div className="p-4">
@@ -344,6 +321,28 @@ export default function Shop() {
           </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {toast && <Toast {...toast} onClose={() => setToast(null)} />}
+
+      {/* Animation styles */}
+      <style>
+        {`
+          @keyframes slideUp {
+            from {
+              transform: translateY(100%);
+              opacity: 0;
+            }
+            to {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
+          .animate-slide-up {
+            animation: slideUp 0.3s ease-out;
+          }
+        `}
+      </style>
     </section>
   );
 }
