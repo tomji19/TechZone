@@ -15,10 +15,11 @@ export default function Home() {
       <HeroSlider />
       <HomeCategorySlider />
       <HomeFeaturedProductsSection />
+      <HomePromotionSection />
+      <HomeCustomersAlsoBought />
       <HomeHotDeals />
       <HomeCustomersAlsoBought />
-      <HomePromotionSection />
-      <HomeGridProductsSection />
+      {/* <HomeGridProductsSection /> */}
     </>
   );
 }
