@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Heart,
   MapPin,
@@ -10,11 +10,20 @@ import {
   CreditCard,
   Edit,
   Menu,
+  Trash2,
 } from "lucide-react";
 
 export default function Account() {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [favoriteItems, setFavoriteItems] = useState([]);
+  const [animateHeartIndex, setAnimateHeartIndex] = useState(null);
+
+  // Fetch wishlist from localStorage on component mount
+  useEffect(() => {
+    const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setFavoriteItems(savedWishlist);
+  }, []);
 
   const tabs = [
     {
@@ -39,18 +48,12 @@ export default function Account() {
     },
   ];
 
-  // Sample data remains the same
+  // Sample data
   const userEmail = "user@example.com";
   const recentOrders = [
     { id: 3511, date: "2025-02-10", total: "$129.99", status: "Delivered" },
     { id: 2313, date: "2025-02-05", total: "$89.99", status: "In Transit" },
     { id: 7512, date: "2025-01-30", total: "$199.99", status: "Processing" },
-  ];
-
-  const favoriteItems = [
-    { id: 1, name: "Wireless Headphones", price: "$79.99" },
-    { id: 2, name: "Smart Watch", price: "$199.99" },
-    { id: 3, name: "Bluetooth Speaker", price: "$129.99" },
   ];
 
   const addresses = [
@@ -62,6 +65,19 @@ export default function Account() {
     { id: 1, type: "Visa", last4: "4567" },
     { id: 2, type: "Mastercard", last4: "8901" },
   ];
+
+  // Remove item from favorites
+  const removeFromFavorites = (itemId) => {
+    setAnimateHeartIndex(itemId);
+    
+    // Wait for animation to complete before removing
+    setTimeout(() => {
+      const updatedFavorites = favoriteItems.filter(item => item.id !== itemId);
+      setFavoriteItems(updatedFavorites);
+      localStorage.setItem("wishlist", JSON.stringify(updatedFavorites));
+      setAnimateHeartIndex(null);
+    }, 500);
+  };
 
   return (
     <section className="py-5 px-4 sm:px-8 lg:px-16 bg-gray-50">
@@ -98,6 +114,11 @@ export default function Account() {
                 >
                   {tab.icon}
                   <span className="text-sm lg:text-base">{tab.label}</span>
+                  {tab.id === "favorites" && favoriteItems.length > 0 && (
+                    <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-[#FA8232] rounded-full">
+                      {favoriteItems.length}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -196,23 +217,76 @@ export default function Account() {
 
             {/* Favorites Tab */}
             {activeTab === "favorites" && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {favoriteItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className="p-3 lg:p-4 border rounded-lg hover:border-[#FA8232] transition-colors"
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-medium text-sm lg:text-base">
-                          {item.name}
-                        </h3>
-                        <p className="text-sm text-gray-500">{item.price}</p>
-                      </div>
-                      <Heart className="w-5 h-5 text-[#FA8232]" />
+              <div>
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-semibold">
+                    My Favorites{" "}
+                    <span className="text-sm text-gray-500 font-normal">
+                      ({favoriteItems.length} item{favoriteItems.length !== 1 ? "s" : ""})
+                    </span>
+                  </h2>
+                </div>
+                
+                {favoriteItems.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-16 text-center">
+                    <div className="bg-gray-100 p-4 rounded-full mb-4">
+                      <Heart className="w-10 h-10 text-gray-400" />
                     </div>
+                    <h3 className="text-lg font-medium text-gray-700 mb-2">Your wishlist is empty</h3>
+                    <p className="text-gray-500 max-w-md">
+                      Click the heart icon on products you love to add them to your favorites for easy access later.
+                    </p>
                   </div>
-                ))}
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {favoriteItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className={`p-4 border rounded-lg transition-all duration-300 ${
+                          animateHeartIndex === item.id 
+                            ? "scale-90 opacity-0" 
+                            : "hover:border-[#FA8232] hover:shadow-md"
+                        }`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="w-20 h-20 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden">
+                            <img 
+                              src={item.image1 || "/api/placeholder/80/80"} 
+                              alt={item.name} 
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between">
+                              <div className="text-xs text-gray-500 mb-1">
+                                {item.category || "Electronics"}
+                              </div>
+                              <button 
+                                onClick={() => removeFromFavorites(item.id)}
+                                className="group transition-transform hover:scale-110"
+                                aria-label="Remove from favorites"
+                              >
+                                <Heart className="w-5 h-5 text-[#FA8232] fill-[#FA8232] group-hover:fill-red-500 group-hover:text-red-500" />
+                              </button>
+                            </div>
+                            <h3 className="font-medium text-sm line-clamp-2 mb-1">
+                              {item.name}
+                            </h3>
+                            <div className="flex items-center justify-between mt-2">
+                              <p className="font-bold text-[#FA8232]">
+                                ${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}
+                              </p>
+                              <button className="bg-[#FA8232] text-white text-xs font-medium px-3 py-1.5 rounded-md hover:bg-[#E57122] transition-colors duration-200 flex items-center gap-1">
+                                <ShoppingBag className="w-3.5 h-3.5" />
+                                Add to Cart
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
@@ -314,6 +388,20 @@ export default function Account() {
           </div>
         </div>
       </div>
+
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes heartBeat {
+          0% { transform: scale(1); }
+          14% { transform: scale(1.3); }
+          28% { transform: scale(1); }
+          42% { transform: scale(1.3); }
+          70% { transform: scale(1); }
+        }
+        .heart-beat {
+          animation: heartBeat 1s;
+        }
+      `}</style>
     </section>
   );
 }
