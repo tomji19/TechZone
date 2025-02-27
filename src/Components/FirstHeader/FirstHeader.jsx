@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom"; // Import useLocation
 import { useCart } from "../../Components/CartContext/CartContext";
 import { ShoppingCart, X, Plus, Minus, Zap, Search, User } from "lucide-react";
 import SearchBar from "../SearchBar/SearchBar";
@@ -14,6 +14,31 @@ export default function FirstHeader() {
     getTotalItems,
     getTotalPrice,
   } = useCart();
+
+  const cartRef = useRef(null); // Ref to track the cart dropdown
+  const location = useLocation(); // Hook to detect route changes
+
+  // Close cart when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (cartRef.current && !cartRef.current.contains(event.target)) {
+        setIsCartOpen(false);
+      }
+    };
+
+    if (isCartOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isCartOpen, setIsCartOpen]);
+
+  // Close cart when navigating to another page
+  useEffect(() => {
+    setIsCartOpen(false); // Close cart on route change
+  }, [location, setIsCartOpen]);
 
   return (
     <header className="bg-white shadow-sm py-5 px-4 sm:px-8 md:px-16 relative z-50">
@@ -51,7 +76,10 @@ export default function FirstHeader() {
 
             {/* Cart Dropdown */}
             {isCartOpen && (
-              <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl z-50 border border-gray-100">
+              <div
+                ref={cartRef} // Attach ref to the cart dropdown
+                className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl z-50 border border-gray-100"
+              >
                 <div className="p-4">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-semibold text-gray-800">
@@ -145,7 +173,7 @@ export default function FirstHeader() {
           </div>
 
           <Link
-            to="/auth"
+            to="/login"
             className="text-gray-800 flex items-center rounded-lg px-4 py-2 transition-all duration-300 bg-gradient-to-r from-transparent to-transparent hover:from-blue-50 hover:to-indigo-50 border-2 border-transparent hover:border-indigo-100"
           >
             <User className="h-5 w-5 mr-2 text-indigo-600" />

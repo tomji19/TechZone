@@ -12,12 +12,16 @@ import {
   Menu,
   Trash2,
 } from "lucide-react";
+import { useCart } from "../../Components/CartContext/CartContext"; // Import useCart
 
 export default function Account() {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [animateHeartIndex, setAnimateHeartIndex] = useState(null);
+
+  // Access cart context
+  const { addToCart } = useCart(); // Destructure addToCart from useCart
 
   // Fetch wishlist from localStorage on component mount
   useEffect(() => {
@@ -69,14 +73,25 @@ export default function Account() {
   // Remove item from favorites
   const removeFromFavorites = (itemId) => {
     setAnimateHeartIndex(itemId);
-    
-    // Wait for animation to complete before removing
     setTimeout(() => {
-      const updatedFavorites = favoriteItems.filter(item => item.id !== itemId);
+      const updatedFavorites = favoriteItems.filter(
+        (item) => item.id !== itemId
+      );
       setFavoriteItems(updatedFavorites);
       localStorage.setItem("wishlist", JSON.stringify(updatedFavorites));
       setAnimateHeartIndex(null);
     }, 500);
+  };
+
+  // Add item to cart
+  const handleAddToCart = (item) => {
+    addToCart({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      image1: item.image1,
+      quantity: 1, // Default quantity when adding to cart
+    });
   };
 
   return (
@@ -222,19 +237,23 @@ export default function Account() {
                   <h2 className="text-xl font-semibold">
                     My Favorites{" "}
                     <span className="text-sm text-gray-500 font-normal">
-                      ({favoriteItems.length} item{favoriteItems.length !== 1 ? "s" : ""})
+                      ({favoriteItems.length}{" "}
+                      item{favoriteItems.length !== 1 ? "s" : ""})
                     </span>
                   </h2>
                 </div>
-                
+
                 {favoriteItems.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-16 text-center">
                     <div className="bg-gray-100 p-4 rounded-full mb-4">
                       <Heart className="w-10 h-10 text-gray-400" />
                     </div>
-                    <h3 className="text-lg font-medium text-gray-700 mb-2">Your wishlist is empty</h3>
+                    <h3 className="text-lg font-medium text-gray-700 mb-2">
+                      Your wishlist is empty
+                    </h3>
                     <p className="text-gray-500 max-w-md">
-                      Click the heart icon on products you love to add them to your favorites for easy access later.
+                      Click the heart icon on products you love to add them to
+                      your favorites for easy access later.
                     </p>
                   </div>
                 ) : (
@@ -243,16 +262,16 @@ export default function Account() {
                       <div
                         key={item.id}
                         className={`p-4 border rounded-lg transition-all duration-300 ${
-                          animateHeartIndex === item.id 
-                            ? "scale-90 opacity-0" 
+                          animateHeartIndex === item.id
+                            ? "scale-90 opacity-0"
                             : "hover:border-[#FA8232] hover:shadow-md"
                         }`}
                       >
                         <div className="flex items-start gap-3">
                           <div className="w-20 h-20 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden">
-                            <img 
-                              src={item.image1 || "/api/placeholder/80/80"} 
-                              alt={item.name} 
+                            <img
+                              src={item.image1 || "/api/placeholder/80/80"}
+                              alt={item.name}
                               className="w-full h-full object-contain"
                             />
                           </div>
@@ -261,7 +280,7 @@ export default function Account() {
                               <div className="text-xs text-gray-500 mb-1">
                                 {item.category || "Electronics"}
                               </div>
-                              <button 
+                              <button
                                 onClick={() => removeFromFavorites(item.id)}
                                 className="group transition-transform hover:scale-110"
                                 aria-label="Remove from favorites"
@@ -274,9 +293,15 @@ export default function Account() {
                             </h3>
                             <div className="flex items-center justify-between mt-2">
                               <p className="font-bold text-[#FA8232]">
-                                ${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}
+                                $
+                                {typeof item.price === "number"
+                                  ? item.price.toFixed(2)
+                                  : item.price}
                               </p>
-                              <button className="bg-[#FA8232] text-white text-xs font-medium px-3 py-1.5 rounded-md hover:bg-[#E57122] transition-colors duration-200 flex items-center gap-1">
+                              <button
+                                onClick={() => handleAddToCart(item)} // Call handleAddToCart
+                                className="bg-[#FA8232] text-white text-xs font-medium px-3 py-1.5 rounded-md hover:bg-[#E57122] transition-colors duration-200 flex items-center gap-1"
+                              >
                                 <ShoppingBag className="w-3.5 h-3.5" />
                                 Add to Cart
                               </button>

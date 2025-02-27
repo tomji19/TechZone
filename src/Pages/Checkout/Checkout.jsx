@@ -1,14 +1,93 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Components/CartContext/CartContext";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+
+// Replace with your Stripe Publishable Key
+const stripePromise = loadStripe("your-publishable-key-here");
+
+const CheckoutForm = ({ total, onSuccess }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!stripe || !elements) return;
+
+    setProcessing(true);
+    setError(null);
+
+    // Assume you have a backend endpoint to create a Payment Intent
+    const response = await fetch("/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: Math.round(total * 100) }), // Amount in cents
+    });
+    const { clientSecret } = await response.json();
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+        billing_details: {
+          name: event.target.name.value, // You can collect this from the form
+        },
+      },
+    });
+
+    setProcessing(false);
+
+    if (result.error) {
+      setError(result.error.message);
+    } else if (result.paymentIntent.status === "succeeded") {
+      onSuccess();
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <CardElement
+        options={{
+          style: {
+            base: {
+              fontSize: "16px",
+              color: "#424770",
+              "::placeholder": { color: "#aab7c4" },
+            },
+            invalid: { color: "#9e2146" },
+          },
+        }}
+      />
+      {error && <div className="text-red-500 text-sm">{error}</div>}
+      <button
+        type="submit"
+        disabled={!stripe || processing}
+        className="w-full bg-[#f97316] hover:bg-[#ea580c] text-white py-3 px-4 rounded-md transition-colors disabled:opacity-50"
+      >
+        {processing ? "Processing..." : "Pay Now"}
+      </button>
+    </form>
+  );
+};
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { cartItems, setIsCartOpen } = useCart();
+  const { cartItems, setIsCartOpen, clearCart } = useCart();
+  const [paymentMethod, setPaymentMethod] = useState("stripe"); // "stripe" or "cod"
 
   // Calculate order summary from cart items
   const subtotal = cartItems.reduce((sum, item) => {
-    const price = parseFloat(item.price.replace(/,/g, "").replace(" EGP", ""));
+    const price =
+      typeof item.price === "string"
+        ? parseFloat(item.price.replace(/,/g, "").replace(" EGP", ""))
+        : item.price;
     return sum + price * item.quantity;
   }, 0);
 
@@ -16,10 +95,17 @@ export default function Checkout() {
   const tax = subtotal * 0.14; // Egypt's VAT rate
   const total = subtotal + shipping + tax;
 
-  const handlePlaceOrder = () => {
-    // Here you could add order processing logic
+  const handleCashOnDelivery = () => {
+    // Simulate placing a COD order (no payment processing needed)
     setIsCartOpen(false);
-    navigate("/thankyou");
+    clearCart(); // Clear cart after order is placed
+    navigate("/thankyou", { state: { paymentMethod: "Cash on Delivery" } });
+  };
+
+  const handleStripeSuccess = () => {
+    setIsCartOpen(false);
+    clearCart(); // Clear cart after successful payment
+    navigate("/thankyou", { state: { paymentMethod: "Stripe" } });
   };
 
   if (cartItems.length === 0) {
@@ -58,7 +144,7 @@ export default function Checkout() {
                   {cartItems.map((item) => (
                     <div key={item.id} className="flex gap-4 border-b pb-4">
                       <img
-                        src={item.image}
+                        src={item.image1} // Adjusted to match CartContext
                         alt={item.name}
                         className="w-24 h-24 object-cover rounded-md"
                       />
@@ -68,7 +154,9 @@ export default function Checkout() {
                           Quantity: {item.quantity}
                         </p>
                         <p className="text-[#1B6392] font-semibold">
-                          {item.price}
+                          {typeof item.price === "string"
+                            ? item.price
+                            : `${item.price.toLocaleString()} EGP`}
                         </p>
                       </div>
                     </div>
@@ -185,42 +273,62 @@ export default function Checkout() {
                 </div>
               </div>
 
-              {/* Payment */}
+              {/* Payment Options */}
               <div className="border bg-white shadow-sm p-6 rounded-lg">
-                <h2 className="text-2xl font-semibold mb-6">Payment</h2>
+                <h2 className="text-2xl font-semibold mb-6">Payment Method</h2>
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Card Number
-                    </label>
-                    <input
-                      type="text"
-                      className="mt-1 block w-full border p-2 rounded-md"
-                      placeholder="0000 0000 0000 0000"
-                    />
+                  {/* Payment Method Toggle */}
+                  <div className="flex gap-4 mb-4">
+                    <button
+                      onClick={() => setPaymentMethod("stripe")}
+                      className={`py-2 px-4 rounded-md border ${
+                        paymentMethod === "stripe"
+                          ? "bg-[#1B6392] text-white"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      Credit/Debit Card
+                    </button>
+                    <button
+                      onClick={() => setPaymentMethod("cod")}
+                      className={`py-2 px-4 rounded-md border ${
+                        paymentMethod === "cod"
+                          ? "bg-[#1B6392] text-white"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      Cash on Delivery
+                    </button>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Expiration Date
-                      </label>
-                      <input
-                        type="text"
-                        className="mt-1 block w-full border p-2 rounded-md"
-                        placeholder="MM/YY"
+
+                  {/* Stripe Payment */}
+                  {paymentMethod === "stripe" && (
+                    <Elements stripe={stripePromise}>
+                      <CheckoutForm
+                        total={total}
+                        onSuccess={handleStripeSuccess}
                       />
-                    </div>
+                    </Elements>
+                  )}
+
+                  {/* Cash on Delivery */}
+                  {paymentMethod === "cod" && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        CVV
-                      </label>
-                      <input
-                        type="text"
-                        className="mt-1 block w-full border p-2 rounded-md"
-                        placeholder="123"
-                      />
+                      <p className="text-gray-600 mb-4">
+                        Pay with cash upon delivery. Please ensure you have the
+                        exact amount ready.
+                      </p>
+                      <button
+                        onClick={() => {
+                          handleCashOnDelivery();
+                          window.location.href = '/thankyou'; // Redirect to thank you page
+                        }}
+                        className="w-full bg-[#f97316] hover:bg-[#ea580c] text-white py-3 px-4 rounded-md transition-colors"
+                      >
+                        Place Order (Cash on Delivery)
+                      </button>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -250,12 +358,6 @@ export default function Checkout() {
                       </span>
                     </div>
                   </div>
-                  <button
-                    onClick={handlePlaceOrder}
-                    className="w-full bg-[#f97316] hover:bg-[#ea580c] text-white py-3 px-4 rounded-md transition-colors"
-                  >
-                    Place Order
-                  </button>
                   <button
                     onClick={() => navigate("/shop")}
                     className="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-md transition-colors"

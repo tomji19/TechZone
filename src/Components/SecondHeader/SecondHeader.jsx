@@ -199,6 +199,26 @@ export default function EyeCatchingHeader() {
         </svg>
       ),
     },
+    {
+      name: "Account",
+      path: "/account",
+      color: "#16a34a",
+      icon: (
+        <svg
+          className="w-5 h-5 mr-2"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 14c-4.41 0-8 2.69-8 6v2h16v-2c0-3.31-3.59-6-8-6z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          />
+        </svg>
+      ),
+    },
   ];
 
   // Add effect to handle screen resize
