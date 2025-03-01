@@ -5,6 +5,7 @@ import { useCart } from "../../Components/CartContext/CartContext";
 import airpod from "../../assets/airpod.png";
 import { ShoppingBag, Zap, ArrowRight } from "lucide-react";
 
+
 // Custom Toast Component
 const Toast = ({ message, product, onClose, type }) => (
   <div
@@ -44,6 +45,7 @@ export default function HomeFeaturedProductsSection() {
   const [products, setProducts] = useState([]);
   const [toast, setToast] = useState(null);
   const [wishlist, setWishlist] = useState([]);
+  
 
   // Load wishlist from localStorage on component mount
   useEffect(() => {
@@ -316,7 +318,7 @@ export default function HomeFeaturedProductsSection() {
                 </div>
 
                 {/* Button - Updated to match banner background theme */}
-                <button className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm  flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]">
+                <button onClick={() => navigate("/shop")} className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm  flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -409,7 +411,7 @@ export default function HomeFeaturedProductsSection() {
                 </div>
 
                 {/* Bottom Button - Updated to indigo */}
-                <button className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm  flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]">
+                <button onClick={() => navigate("/shop")} className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm  flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]">
                   Explore Collection
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>

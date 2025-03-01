@@ -2,8 +2,12 @@ import React from "react";
 import logowhite from "../../assets/logowhite.png";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import { Zap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Footer() {
+  const navigate = useNavigate();
+
   return (
     <footer className="relative py-10 px-16 bg-gradient-to-r from-blue-800 via-indigo-900 to-purple-950 shadow-xl text-gray-200">
       <div className="absolute inset-0 opacity-10">
@@ -11,7 +15,7 @@ export default function Footer() {
       </div>
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Company Info */}
-        <div className="flex flex-col items-start">
+        <div className="flex flex-col items-start z-10">
           <div className="flex items-center mb-4">
             <Zap className="text-white h-7 w-7" />
             <span className="ml-2 text-white font-bold text-3xl">TechZone</span>
@@ -20,7 +24,7 @@ export default function Footer() {
           <p className="text-lg font-normal text-white">01270545289</p>
           <a
             href="https://www.youssefashour.com"
-            className="text-yellow-400 font-normal hover:underline text-lg"
+            className="text-yellow-400 font-normal hover:underline text-lg cursor-pointer"
             target="_blank"
           >
             https://www.youssefashour.com
@@ -28,9 +32,9 @@ export default function Footer() {
 
           {/* Social Icons */}
           <div className="flex gap-4 mt-4">
-            <Facebook className="w-7 h-7 text-gray-300 hover:text-white transition" />
-            <Instagram className="w-7 h-7 text-gray-300 hover:text-white transition" />
-            <Twitter className="w-7 h-7 text-gray-300 hover:text-white transition" />
+            <Facebook className="w-7 h-7 text-gray-300 hover:text-white transition cursor-pointer" />
+            <Instagram className="w-7 h-7 text-gray-300 hover:text-white transition cursor-pointer" />
+            <Twitter className="w-7 h-7 text-gray-300 hover:text-white transition cursor-pointer" />
           </div>
         </div>
 
