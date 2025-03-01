@@ -67,7 +67,7 @@ export default function HomeCustomersAlsoBought() {
         <h2 className="text-2xl font-semibold heading-font">
           Customers Also Bought
         </h2>
-        <a href="#" className="text-[#253fb2] hover:underline font-medium backdrop-blur-sm">
+        <a href="http://localhost:5175/shop" className="text-[#253fb2] hover:underline font-medium backdrop-blur-sm">
           Browse All Products →
         </a>
       </div>

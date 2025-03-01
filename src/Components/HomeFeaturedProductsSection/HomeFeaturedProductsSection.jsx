@@ -16,11 +16,10 @@ const Toast = ({ message, product, onClose, type }) => (
   >
     <div className="flex items-center gap-3">
       <div
-        className={`rounded-full p-1.5 ${
-          type === "wishlist"
-            ? "bg-pink-600"
-            : "bg-gradient-to-r from-blue-700 to-indigo-900"
-        }`}
+        className={`rounded-full p-1.5 ${type === "wishlist"
+          ? "bg-pink-600"
+          : "bg-gradient-to-r from-blue-700 to-indigo-900"
+          }`}
       >
         <Check className="w-5 h-5 text-white" />
       </div>
@@ -29,9 +28,8 @@ const Toast = ({ message, product, onClose, type }) => (
           {type === "wishlist" ? "Added to Wishlist!" : "Added to Cart!"}
         </p>
         <p
-          className={`text-xs ${
-            type === "wishlist" ? "text-pink-600" : "text-indigo-600"
-          }`}
+          className={`text-xs ${type === "wishlist" ? "text-pink-600" : "text-indigo-600"
+            }`}
         >
           {product?.name}
         </p>
@@ -229,94 +227,47 @@ export default function HomeFeaturedProductsSection() {
         <div className="flex flex-col lg:flex-row lg:gap-7">
           {/* Promotional Banners */}
           <div className="hidden lg:flex flex-col w-[26%] h-full gap-6 sticky top-0">
-            {/* Top Banner - Ramadan Nights Premium Gold & Black Theme */}
-            <div className="relative h-1/2 bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-lg overflow-hidden flex flex-col items-center justify-center text-center group border border-amber-700/40 hover:border-amber-500/60 transition-colors duration-300">
-              {/* Ramadan-inspired Pattern Background */}
+            {/* Top Banner - With colors matched to background */}
+            <div className="relative h-1/2 bg-[#e0e7ff] rounded-xl shadow-sm overflow-hidden flex flex-col items-center justify-center text-center group border border-indigo-100 hover:border-indigo-200 transition-colors duration-300 ">
+              {/* Simplified Background Pattern */}
               <div className="absolute inset-0">
                 <svg
                   width="100%"
                   height="100%"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="opacity-20"
+                  className="opacity-10"
                 >
                   <defs>
                     <pattern
-                      id="ramadanPattern"
-                      width="80"
-                      height="80"
+                      id="simplePattern"
+                      width="60"
+                      height="60"
                       patternUnits="userSpaceOnUse"
                     >
-                      {/* Crescent moon shapes */}
                       <path
-                        d="M20 20 A15 15 0 0 1 35 35 A10 10 0 0 0 20 20"
+                        d="M30 10 L50 30 L30 50 L10 30 Z"
                         fill="none"
-                        stroke="url(#premiumGoldGradient)"
-                        strokeWidth="0.6"
-                      />
-                      <path
-                        d="M60 60 A15 15 0 0 1 75 75 A10 10 0 0 0 60 60"
-                        fill="none"
-                        stroke="url(#premiumGoldGradient)"
-                        strokeWidth="0.6"
-                      />
-
-                      {/* Star shapes */}
-                      <path
-                        d="M50 15 L52 20 L57 20 L53 24 L55 29 L50 26 L45 29 L47 24 L43 20 L48 20 Z"
-                        fill="none"
-                        stroke="url(#premiumGoldGradient)"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M15 50 L17 55 L22 55 L18 59 L20 64 L15 61 L10 64 L12 59 L8 55 L13 55 Z"
-                        fill="none"
-                        stroke="url(#premiumGoldGradient)"
-                        strokeWidth="0.5"
-                      />
-
-                      {/* Ornamental arabesque elements */}
-                      <path
-                        d="M40 40 Q50 35, 60 40 Q70 45, 80 40"
-                        fill="none"
-                        stroke="url(#premiumGoldGradient)"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M0 40 Q10 35, 20 40 Q30 45, 40 40"
-                        fill="none"
-                        stroke="url(#premiumGoldGradient)"
+                        stroke="#4F46E5"
                         strokeWidth="0.5"
                       />
                     </pattern>
-                    <linearGradient
-                      id="premiumGoldGradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop offset="0%" stopColor="#D4AF37" />
-                      <stop offset="50%" stopColor="#F0C75E" />
-                      <stop offset="100%" stopColor="#D4AF37" />
-                    </linearGradient>
                   </defs>
                   <rect
                     width="100%"
                     height="100%"
-                    fill="url(#ramadanPattern)"
+                    fill="url(#simplePattern)"
                   />
                 </svg>
 
-                {/* Luxury glow effects */}
-                <div className="absolute top-1/3 right-1/3 w-40 h-40 bg-amber-500 rounded-full filter blur-3xl opacity-15 group-hover:opacity-20 transition-opacity duration-300"></div>
-                <div className="absolute bottom-1/3 left-1/3 w-40 h-40 bg-amber-400 rounded-full filter blur-3xl opacity-15 group-hover:opacity-20 transition-opacity duration-300"></div>
+                {/* Subtle highlight - Updated to match background */}
+                <div className="absolute top-1/3 right-1/3 w-40 h-40 bg-indigo-300 rounded-full filter blur-3xl opacity-10 group-hover:opacity-15 transition-opacity duration-300"></div>
               </div>
 
-              {/* Content */}
+              {/* Content - Matching color scheme */}
               <div className="p-6 flex flex-col items-center justify-center h-full text-center z-10">
-                {/* Ramadan Special Badge */}
-                <div className="bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full border border-amber-500/30 mb-3">
-                  <span className="text-xs font-semibold text-amber-300 flex items-center gap-1">
+                {/* Ramadan Special Badge - Updated colors */}
+                <div className="bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200 mb-3">
+                  <span className="text-xs font-semibold text-indigo-700 flex items-center gap-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="14"
@@ -335,37 +286,37 @@ export default function HomeFeaturedProductsSection() {
                   </span>
                 </div>
 
-                {/* Product Info */}
+                {/* Product Info - Same structure */}
                 <div className="flex flex-col items-center justify-center flex-grow">
                   <div className="relative mb-4">
-                    {/* Star-shaped glow behind product */}
-                    <div className="absolute inset-0 bg-amber-500/20 blur-2xl rounded-full transform scale-75 group-hover:bg-amber-500/30 transition-all duration-300"></div>
+                    {/* Simplified glow - Updated color */}
+                    <div className="absolute inset-0 bg-indigo-300/20 blur-2xl rounded-full transform scale-75 group-hover:bg-indigo-300/30 transition-all duration-300"></div>
                     <img
                       src={airpod}
                       alt="Wireless Earbuds"
                       className="w-36 h-26 object-contain drop-shadow-lg relative z-10 transform group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
-                  <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 mb-2">
+                  <h2 className="text-xl font-bold text-gray-800 mb-2">
                     Ramadan Nights Collection
                   </h2>
-                  <p className="text-amber-100/80 text-sm mb-4 max-w-[200px]">
+                  <p className="text-gray-600 text-sm mb-4 max-w-[200px]">
                     Premium gifts for the blessed month
                   </p>
 
-                  {/* Ornate price tag with accent */}
-                  <div className="relative bg-black/40 backdrop-blur-md border border-amber-500/30 px-4 py-2 rounded-lg mb-4 transform group-hover:scale-105 transition-transform duration-300">
+                  {/* Ornate price tag - Updated colors */}
+                  <div className="relative bg-white border border-indigo-200 px-4 py-2 rounded-lg mb-4 transform group-hover:scale-105 transition-transform duration-300 shadow-sm">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 text-xl">
+                      <span className="font-bold text-indigo-700 text-xl">
                         Up to 25%
                       </span>
-                      <span className="text-amber-200 text-sm">OFF</span>
+                      <span className="text-indigo-600 text-sm">OFF</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Button - Gold gradient with lantern icon */}
-                <button className="w-full py-3 bg-gradient-to-r from-amber-700 to-amber-500 hover:from-amber-600 hover:to-amber-400 text-white rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-300 shadow-md group-hover:shadow-lg transform group-hover:translate-y-[-2px]">
+                {/* Button - Updated to match banner background theme */}
+                <button className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm  flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -386,20 +337,19 @@ export default function HomeFeaturedProductsSection() {
                 </button>
               </div>
             </div>
-
-            {/* Bottom Banner - Ultra Premium Gold & Black Theme (kept as is) */}
-            <div className="relative h-1/2 bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-lg overflow-hidden flex flex-col items-center justify-center text-center group border border-amber-700/40 hover:border-amber-500/60 transition-colors duration-300">
-              {/* Premium Background Pattern */}
+            {/* Bottom Banner - Updated with indigo color scheme */}
+            <div className="relative h-1/2 bg-[#e0e7ff] rounded-xl shadow-sm overflow-hidden flex flex-col items-center justify-center text-center group border border-indigo-100 hover:border-indigo-200 transition-colors duration-300">
+              {/* Simplified Background Pattern */}
               <div className="absolute inset-0">
                 <svg
                   width="100%"
                   height="100%"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="opacity-20"
+                  className="opacity-10"
                 >
                   <defs>
                     <pattern
-                      id="luxuryDiamondPattern"
+                      id="simpleDiamondPattern"
                       width="60"
                       height="60"
                       patternUnits="userSpaceOnUse"
@@ -407,70 +357,59 @@ export default function HomeFeaturedProductsSection() {
                       <path
                         d="M30 10 L50 30 L30 50 L10 30 Z"
                         fill="none"
-                        stroke="url(#premiumGoldGradient)"
-                        strokeWidth="0.6"
+                        stroke="#4F46E5"
+                        strokeWidth="0.5"
                       />
                       <circle
                         cx="30"
                         cy="30"
                         r="1.5"
-                        fill="url(#premiumGoldGradient)"
+                        fill="#4F46E5"
                       />
                     </pattern>
-                    <linearGradient
-                      id="premiumGoldGradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop offset="0%" stopColor="#D4AF37" />
-                      <stop offset="50%" stopColor="#F0C75E" />
-                      <stop offset="100%" stopColor="#D4AF37" />
-                    </linearGradient>
                   </defs>
                   <rect
                     width="100%"
                     height="100%"
-                    fill="url(#luxuryDiamondPattern)"
+                    fill="url(#simpleDiamondPattern)"
                   />
                 </svg>
 
-                {/* Luxury glow effects */}
-                <div className="absolute top-1/4 right-1/4 w-40 h-40 bg-amber-500 rounded-full filter blur-3xl opacity-15 group-hover:opacity-20 transition-opacity duration-300"></div>
-                <div className="absolute bottom-1/4 left-1/4 w-40 h-40 bg-amber-400 rounded-full filter blur-3xl opacity-15 group-hover:opacity-20 transition-opacity duration-300"></div>
+                {/* Subtle highlight - Updated to indigo */}
+                <div className="absolute top-1/4 right-1/4 w-40 h-40 bg-indigo-300 rounded-full filter blur-3xl opacity-10 group-hover:opacity-15 transition-opacity duration-300"></div>
+                <div className="absolute bottom-1/4 left-1/4 w-40 h-40 bg-indigo-300 rounded-full filter blur-3xl opacity-10 group-hover:opacity-15 transition-opacity duration-300"></div>
               </div>
 
               <div className="p-6 flex flex-col items-center justify-center h-full text-center z-10">
-                {/* Top Section - Premium Badge */}
-                <div className="bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full border border-amber-500/30 mb-3">
-                  <span className="text-xs font-semibold text-amber-300 flex items-center gap-1">
+                {/* Top Section - Premium Badge - Updated to indigo */}
+                <div className="bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200 mb-3">
+                  <span className="text-xs font-semibold text-indigo-700 flex items-center gap-1">
                     ULTRA PREMIUM
                   </span>
                 </div>
 
-                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 mb-2">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">
                   Ramadan Collection
                 </h2>
-                <p className="text-amber-100/80 text-sm mb-5 max-w-[220px]">
+                <p className="text-gray-600 text-sm mb-5 max-w-[220px]">
                   Limited edition flagship smartphones
                 </p>
 
-                {/* Middle - Diamond Shape with Price Inside */}
+                {/* Middle - Diamond Shape with Price Inside - Updated to indigo */}
                 <div className="relative mb-5 transform group-hover:scale-110 transition-transform duration-300">
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 to-yellow-300/20 rounded-lg blur-xl"></div>
-                  <div className="relative bg-black/40 backdrop-blur-md border border-amber-500/30 p-4 rounded-lg">
-                    <div className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300">
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-300/10 to-indigo-300/10 rounded-lg blur-xl"></div>
+                  <div className="relative bg-white border border-indigo-200 p-4 rounded-lg shadow-sm">
+                    <div className="text-4xl font-extrabold text-indigo-700">
                       40<span className="text-xl">%</span>
                     </div>
-                    <div className="text-sm text-amber-200 font-medium mt-1">
+                    <div className="text-sm text-indigo-600 font-medium mt-1">
                       RAMADAN DISCOUNTS
                     </div>
                   </div>
                 </div>
 
-                {/* Bottom Button - Premium Gold */}
-                <button className="w-full py-3 bg-gradient-to-r from-amber-700 to-amber-500 hover:from-amber-600 hover:to-amber-400 text-white rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-300 shadow-md group-hover:shadow-lg transform group-hover:translate-y-[-2px]">
+                {/* Bottom Button - Updated to indigo */}
+                <button className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm  flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]">
                   Explore Collection
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
@@ -486,7 +425,7 @@ export default function HomeFeaturedProductsSection() {
               </h2>
               <div className="flex items-center gap-4">
                 <a
-                  href="#"
+                  href="http://localhost:5175/shop"
                   className="text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
                 >
                   Browse All Products →
@@ -526,11 +465,10 @@ export default function HomeFeaturedProductsSection() {
                     </div>
                     <div className="flex gap-1 mt-3">
                       <button
-                        className={`p-1.5 rounded-lg border transition-all duration-200 ${
-                          isInWishlist(product.id)
-                            ? "border-pink-200 bg-pink-50 hover:bg-pink-100"
-                            : "border-gray-200 hover:bg-gray-50"
-                        }`}
+                        className={`p-1.5 rounded-lg border transition-all duration-200 ${isInWishlist(product.id)
+                          ? "border-pink-200 bg-pink-50 hover:bg-pink-100"
+                          : "border-gray-200 hover:bg-gray-50"
+                          }`}
                         onClick={(e) => toggleWishlist(e, product)}
                         aria-label={
                           isInWishlist(product.id)
@@ -539,11 +477,10 @@ export default function HomeFeaturedProductsSection() {
                         }
                       >
                         <Heart
-                          className={`w-4 h-4 transition-colors ${
-                            isInWishlist(product.id)
-                              ? "text-pink-600 fill-pink-600"
-                              : "text-gray-600"
-                          }`}
+                          className={`w-4 h-4 transition-colors ${isInWishlist(product.id)
+                            ? "text-pink-600 fill-pink-600"
+                            : "text-gray-600"
+                            }`}
                         />
                       </button>
                       <button

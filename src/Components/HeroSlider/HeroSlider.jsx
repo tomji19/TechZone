@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { ChevronRight, ChevronLeft, Zap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const XboxSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState({});
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate(); // Add this missing line to initialize navigate
 
   const slides = [
     {
@@ -18,32 +21,59 @@ const XboxSlider = () => {
       consoleColor: "black",
       backgroundColor: "bg-blue-100", // Solid background color
       image: "/src/assets/Image22.png",
+      link: "/product/19",
+      id: "19" // Add explicit ID
     },
     {
-      title: "LIMITED EDITION",
-      heading: "Xbox Series S",
+      title: "SPECIAL BUNDLE",
+      heading: "Apple Watch Series 10",
       description:
-        "Experience gaming in style.\nIncludes exclusive digital content package.",
+        `Advanced health tracking, stunning display. 
+        Stay connected, active, and stylish.`,
       color: "#7c3aed", // Purple color from header
       buttonColor: "from-indigo-600 to-purple-700",
       price: "$329",
       consoleColor: "green",
       backgroundColor: "bg-indigo-100", // Solid background color
       image: "/src/assets/Image333.png",
+      link: "/product/31",
+      id: "31" // Add explicit ID
     },
     {
-      title: "SPECIAL BUNDLE",
-      heading: "Xbox Elite Bundle",
+      title: "LIMITED EDITION",
+      heading: "Apple MacBook Air M3",
       description:
-        "Includes 2 controllers and 3 months of Xbox Game Pass Ultimate.\nFree shipping included.",
+        `Powerful performance, ultra-slim design.
+        Experience speed, efficiency, and all-day battery life.`,
       color: "#db2777", // Pink color from header
       buttonColor: "from-purple-700 to-pink-600",
       price: "$349",
       consoleColor: "white",
       backgroundColor: "bg-purple-100", // Solid background color
       image: "/src/assets/Image44.png",
+      link: "/product/9",
+      id: "9" // Add explicit ID
     },
   ];
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("http://localhost:5000/products");
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
+        setProducts(data);
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error fetching products:", err.message);
+        // Continue even if fetch fails - we'll use the slide data
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   // Preload all images
   useEffect(() => {
@@ -89,6 +119,30 @@ const XboxSlider = () => {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
 
+  const handleShopNow = () => {
+    const currentSlideData = slides[currentSlide];
+    const productId = currentSlideData.id;
+    
+    // Look for matching product in fetched products
+    const matchingProduct = products.find(p => p.id === productId);
+    
+    if (matchingProduct) {
+      // If we have the full product from API, use that
+      navigate(`/product/${productId}`, { state: { product: matchingProduct } });
+    } else {
+      // Otherwise, create a basic product object from the slide data
+      const basicProduct = {
+        id: productId,
+        name: currentSlideData.heading,
+        price: parseFloat(currentSlideData.price.replace('$', '')),
+        description: currentSlideData.description,
+        image1: currentSlideData.image
+      };
+      
+      navigate(`/product/${productId}`, { state: { product: basicProduct } });
+    }
+  };
+
   if (isLoading) {
     return (
       <section className="relative overflow-hidden py-5 px-4 sm:px-8 md:px-16 font-sans">
@@ -121,16 +175,15 @@ const XboxSlider = () => {
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-              index === currentSlide ? "opacity-100 z-20" : "opacity-0 z-10"
-            }`}
+            className={`absolute inset-0 transition-all duration-500 ease-in-out ${index === currentSlide ? "opacity-100 z-20" : "opacity-0 z-10"
+              }`}
             style={{
               transform:
                 index === currentSlide
                   ? "translateX(0)"
                   : index < currentSlide
-                  ? "translateX(-100%)"
-                  : "translateX(100%)",
+                    ? "translateX(-100%)"
+                    : "translateX(100%)",
             }}
           >
             {/* Solid Background */}
@@ -160,6 +213,7 @@ const XboxSlider = () => {
                 </p>
                 <div className="flex justify-center md:justify-start">
                   <button
+                    onClick={handleShopNow}
                     className={`flex items-center gap-2 bg-gradient-to-r ${slide.buttonColor} text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-sm sm:text-base font-medium relative overflow-hidden group`}
                   >
                     <span className="relative z-10 tracking-wide uppercase text-sm">
@@ -217,11 +271,10 @@ const XboxSlider = () => {
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === currentSlide
+              className={`h-2 rounded-full transition-all ${index === currentSlide
                   ? "w-8 sm:w-10 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md"
                   : "w-2 bg-gray-300 hover:bg-gray-400"
-              }`}
+                }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}

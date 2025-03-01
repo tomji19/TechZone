@@ -4,15 +4,15 @@ import card3 from "../../assets/console1.png";
 import card4 from "../../assets/smartphone.png";
 import card5 from "../../assets/laptop.png";
 import card6 from "../../assets/case.png";
-
+import { Link } from "react-router-dom"; // Import useLocation
 export default function CategoryCards() {
   const categories = [
     { isPromo: true },
-    { title: "Laptops", image: card5 },
-    { title: "Gaming", image: card3 },
-    { title: "Smartphones", image: card4 },
-    { title: "Wearables", image: card1 },
-    { title: "Pc Parts", image: card6 },
+    { title: "Laptops", image: card5, link: "/laptops" },
+    { title: "Gaming", image: card3, link: "/gamingconsoles" },
+    { title: "Smartphones", image: card4, link: "/smartphones" },
+    { title: "Wearables", image: card1, link: "/wearablesaccessories" },
+    { title: "Pc Parts", image: card6, link: "/pccomponents" },
   ];
 
   return (
@@ -27,11 +27,10 @@ export default function CategoryCards() {
               {categories.map((item, index) => (
                 <div
                   key={index}
-                  className={`relative w-full max-w-[14.28rem] ${
-                    item.isPromo
+                  className={`relative w-full max-w-[14.28rem] ${item.isPromo
                       ? "flex flex-col justify-center"
                       : "h-[15rem] rounded-lg border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0)] bg-[#ffffff42] transition-all duration-300 flex flex-col items-center justify-center group cursor-pointer"
-                  }`}
+                    }`}
                 >
                   {item.isPromo ? (
                     <div className="w-56 h-56 flex flex-col items-center justify-center rounded-lg border-black border-2">
@@ -45,14 +44,19 @@ export default function CategoryCards() {
                         On selected items
                       </div>
                       <a
-                        href="#"
+                        href="http://localhost:5175/shop"
                         className="mt-4 px-6 py-2 bg-black/10 hover:bg-black/20 text-black rounded-md text-sm font-medium transition-all duration-200"
                       >
                         Shop Now
                       </a>
                     </div>
                   ) : (
-                    <>
+
+                    <Link
+                      key={index}
+                      to={item.link}
+                      className="relative w-full max-w-[14.28rem] h-[15rem] rounded-lg border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0)] bg-[#ffffff42] transition-all duration-300 flex flex-col items-center justify-center group cursor-pointer"
+                    >
                       <div className="sm:absolute sm:-top-8 md:-top-3 transform transition-transform duration-300 group-hover:-translate-y-2 xs:mb-4">
                         <img
                           src={item.image}
@@ -63,7 +67,7 @@ export default function CategoryCards() {
                       <span className="absolute bottom-4 sm:bottom-6 text-lg sm:text-xl font-bold text-gray-800 body-font xs:pb-4">
                         {item.title}
                       </span>
-                    </>
+                    </Link>
                   )}
                 </div>
               ))}
