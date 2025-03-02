@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 // Custom Toast Component
 const Toast = ({ message, product, onClose, type }) => (
-  <div 
+  <div
     className="fixed bottom-4 right-4 bg-white border border-indigo-500/20 shadow-lg rounded-lg p-4 animate-slide-up"
     style={{
       animation: 'slideUp 0.3s ease-out',
@@ -44,6 +44,7 @@ export default function HomeCustomersAlsoBought() {
   const [toast, setToast] = useState(null);
   const [wishlist, setWishlist] = useState([]);
 
+
   // Load wishlist from localStorage on component mount
   useEffect(() => {
     const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -71,7 +72,7 @@ export default function HomeCustomersAlsoBought() {
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
     addToCart(product);
-    
+
     // Show toast
     setToast({ message: "Product added to cart", product, type: "cart" });
 
@@ -125,14 +126,14 @@ export default function HomeCustomersAlsoBought() {
           Customers Also Bought
         </h2>
         <a
-                  
-                  className="text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
-                > <Link to= "/shop" > Browse All Products → </Link>
-                  
-                </a>
+
+          className="text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
+        > <Link to="/shop" > Browse All Products → </Link>
+
+        </a>
       </div>
 
-      <div className="min-h-screen">
+      <div className="min-h-screen"> 
         <div className="flex flex-col lg:flex-row lg:gap-3 items-stretch">
           <div className="w-full">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-6 lg:gap-4">

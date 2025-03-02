@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Components/CartContext/CartContext";
 
 // Toast Component
-const Toast = ({ message, product, onClose }) => (
-  <div 
+const Toast = ({ message, product, onClose, type }) => (
+  <div
     className="fixed bottom-4 right-4 bg-white border border-indigo-500/20 shadow-lg rounded-lg p-4 animate-slide-up"
     style={{
       animation: 'slideUp 0.3s ease-out',
@@ -13,16 +13,29 @@ const Toast = ({ message, product, onClose }) => (
     }}
   >
     <div className="flex items-center gap-3">
-      <div className="bg-gradient-to-r from-blue-700 to-indigo-900 rounded-full p-1.5">
+      <div
+        className={`rounded-full p-1.5 ${type === "wishlist"
+          ? "bg-pink-600"
+          : "bg-gradient-to-r from-blue-700 to-indigo-900"
+          }`}
+      >
         <Check className="w-5 h-5 text-white" />
       </div>
       <div className="flex flex-col">
-        <p className="text-sm font-medium text-gray-900">Added to Cart!</p>
-        <p className="text-xs text-indigo-600">{product?.name}</p>
+        <p className="text-sm font-medium text-gray-900">
+          {type === "wishlist" ? "Added to Wishlist!" : "Added to Cart!"}
+        </p>
+        <p
+          className={`text-xs ${type === "wishlist" ? "text-pink-600" : "text-indigo-600"
+            }`}
+        >
+          {product?.name}
+        </p>
       </div>
     </div>
   </div>
 );
+
 
 export default function WearablesAccessories() {
   const [products, setProducts] = useState([]);
@@ -35,6 +48,14 @@ export default function WearablesAccessories() {
   const [toast, setToast] = useState(null);
   const navigate = useNavigate();
   const { addToCart, cartItems } = useCart();
+  const [wishlist, setWishlist] = useState([]);
+
+
+   // Load wishlist from localStorage on component mount
+  useEffect(() => {
+    const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setWishlist(savedWishlist);
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -63,6 +84,45 @@ export default function WearablesAccessories() {
     
     // Show toast
     setToast({ message: "Product added to cart", product });
+
+    // Hide toast after 3 seconds
+    setTimeout(() => {
+      setToast(null);
+    }, 3000);
+  };
+
+
+
+  // Check if product is in wishlist
+  const isInWishlist = (productId) => {
+    return wishlist.some((item) => item.id === productId);
+  };
+
+  // Toggle wishlist
+  const toggleWishlist = (e, product) => {
+    e.stopPropagation();
+
+    if (isInWishlist(product.id)) {
+      // Remove from wishlist
+      const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
+      setWishlist(updatedWishlist);
+      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+
+      // Show removal toast
+      setToast({
+        message: "Removed from wishlist",
+        product,
+        type: "wishlist-remove",
+      });
+    } else {
+      // Add to wishlist
+      const updatedWishlist = [...wishlist, product];
+      setWishlist(updatedWishlist);
+      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+
+      // Show addition toast
+      setToast({ message: "Added to wishlist", product, type: "wishlist" });
+    }
 
     // Hide toast after 3 seconds
     setTimeout(() => {
@@ -298,14 +358,23 @@ export default function WearablesAccessories() {
                       )}
                     </div>
                     <div className="flex gap-2 mt-3">
-                      <button
-                        className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50"
-                        onClick={(e) => e.stopPropagation()}
+                    <button
+                        className={`p-1.5 rounded-lg border transition-all duration-200 ${isInWishlist(product.id)
+                          ? "border-pink-200 bg-pink-50 hover:bg-pink-100"
+                          : "border-gray-200 hover:bg-gray-50"
+                          }`}
+                        onClick={(e) => toggleWishlist(e, product)}
+                        aria-label={
+                          isInWishlist(product.id)
+                            ? "Remove from wishlist"
+                            : "Add to wishlist"
+                        }
                       >
                         <Heart
-                          className={`w-4 h-4 ${
-                            isInCart ? "text-red-500" : "text-gray-600"
-                          }`}
+                          className={`w-4 h-4 transition-colors ${isInWishlist(product.id)
+                            ? "text-pink-600 fill-pink-600"
+                            : "text-gray-600"
+                            }`}
                         />
                       </button>
                       <button

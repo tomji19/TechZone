@@ -88,7 +88,7 @@ const ProductDetail = () => {
       {/* Back Button */}
       <button
         onClick={() => navigate("/shop")}
-        className="flex items-center text-gray-600 hover:text-[#FA8232] mb-8 transition-colors duration-300"
+        className="flex items-center text-gray-600 hover:text-[#004AAD] mb-8 transition-colors duration-300"
       >
         <ChevronLeft className="w-5 h-5" />
         <span>Back to Shop</span>
