@@ -4,6 +4,7 @@ import { Heart, ShoppingCart, Check } from "lucide-react";
 import { useCart } from "../../Components/CartContext/CartContext";
 import airpod from "../../assets/airpod.png";
 import { ShoppingBag, Zap, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 
 // Custom Toast Component
@@ -168,6 +169,8 @@ export default function HomeFeaturedProductsSection() {
         setProducts(randomSampleProducts);
       });
   }, []);
+
+
 
   const handleProductClick = (product) => {
     navigate(`/product/${product.id}`, { state: { product } });
@@ -427,10 +430,10 @@ export default function HomeFeaturedProductsSection() {
               </h2>
               <div className="flex items-center gap-4">
                 <a
-                  href="http://localhost:5175/shop"
+                  
                   className="text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
-                >
-                  Browse All Products →
+                > <Link to= "/shop" > Browse All Products → </Link>
+                  
                 </a>
               </div>
             </div>

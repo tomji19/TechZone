@@ -3,10 +3,12 @@ import logowhite from "../../assets/logowhite.png";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import { Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 export default function Footer() {
   const navigate = useNavigate();
+
 
   return (
     <footer className="relative py-10 px-16 bg-gradient-to-r from-blue-800 via-indigo-900 to-purple-950 shadow-xl text-gray-200">
@@ -39,30 +41,31 @@ export default function Footer() {
         </div>
 
         {/* Categories */}
-        <div>
+        <div className="z-10">
           <h3 className="text-white text-xl font-semibold mb-4">
             Top Categories
           </h3>
           <ul className="space-y-2 text-md text-gray-300">
-            <li>Laptops</li>
-            <li>Gaming</li>
-            <li>Phones</li>
-            <li className="text-yellow-400">Wearables</li>
-            <li>PC Parts</li>
+            <li> <Link to="/laptops">Laptops</Link></li>
+            <li><Link to="/gamingconsoles">Gaming</Link></li>
+            <li><Link to="/smartphones">Phones</Link></li>
+            <li className="text-yellow-400"> <Link to="/wearablesaccessories">Wearables</Link></li>
+            <li> <Link to="/pccomponents">PC Parts</Link></li>
           </ul>
-          <a href="#" className="text-yellow-400 text-md mt-2 inline-block">
-            Browse All Products →
+          <a className="text-yellow-400 text-md mt-2 inline-block">
+            <Link to="/shop"> Browse All Products → </Link>
+            
           </a>
         </div>
 
         {/* Quick Links */}
-        <div>
+        <div className="z-10">
           <h3 className="text-white text-xl font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2 text-md text-gray-300">
-            <li>Shopping Cart</li>
-            <li>Wishlist</li>
-            <li>Customer Help</li>
-            <li>About Us</li>
+            <li> <Link to="/cart">Shopping Cart</Link> </li>
+            <li> <Link to="/account">Wishlist</Link> </li>
+            <li> <Link>Customer Help</Link> </li>
+            <li> <Link>About Us</Link> </li>
           </ul>
         </div>
 

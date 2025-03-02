@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart, Check } from "lucide-react";
 import { useCart } from "../../Components/CartContext/CartContext";
+import { Link } from "react-router-dom";
 
 // Custom Toast Component
 const Toast = ({ message, product, onClose, type }) => (
@@ -123,9 +124,12 @@ export default function HomeCustomersAlsoBought() {
         <h2 className="text-2xl font-semibold heading-font">
           Customers Also Bought
         </h2>
-        <a href="http://localhost:5175/shop" className="text-[#253fb2] hover:underline font-medium backdrop-blur-sm">
-          Browse All Products →
-        </a>
+        <a
+                  
+                  className="text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
+                > <Link to= "/shop" > Browse All Products → </Link>
+                  
+                </a>
       </div>
 
       <div className="min-h-screen">

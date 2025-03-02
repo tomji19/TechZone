@@ -1,16 +1,36 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Heart, ShoppingCart, ChevronLeft, Plus, Minus } from "lucide-react";
 import { useCart } from "../../Components/CartContext/CartContext";
 
 const ProductDetail = () => {
+  const { id } = useParams(); // Get product ID from URL
   const location = useLocation();
   const navigate = useNavigate();
-  const { product } = location.state || {};
-  const [selectedImage, setSelectedImage] = useState(product?.image1);
-  const [quantity, setQuantity] = useState(1);
   const { addToCart, cartItems } = useCart();
-  const isInCart = cartItems.some((item) => item.id === product?.id);
+  const [product, setProduct] = useState(location.state?.product || null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    if (!product) {
+      fetch(`http://localhost:5000/products/${id}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Product not found");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setProduct(data);
+          setSelectedImage(data.image1);
+        })
+        .catch((error) => {
+          console.error("Error fetching product:", error);
+          navigate("/shop"); // Redirect if product not found
+        });
+    }
+  }, [id, navigate]); // Fixed dependency array
 
   const handleQuantityChange = (action) => {
     if (action === "increase") {
@@ -20,20 +40,12 @@ const ProductDetail = () => {
     }
   };
 
+  const isInCart = cartItems.some((item) => item.id === product?.id); // Fixed missing variable
+
   if (!product) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Product Not Found
-          </h2>
-          <button
-            onClick={() => navigate("/shop")}
-            className="text-white bg-[#FA8232] hover:bg-[#FA8232]/90 px-6 py-2 rounded-lg transition-colors duration-300"
-          >
-            Return to Shop
-          </button>
-        </div>
+        <h2 className="text-xl font-semibold text-gray-700">Loading product...</h2>
       </div>
     );
   }
@@ -67,9 +79,7 @@ const ProductDetail = () => {
                   key={index}
                   onClick={() => setSelectedImage(image)}
                   className={`aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                    selectedImage === image
-                      ? "border-[#FA8232]"
-                      : "border-gray-200"
+                    selectedImage === image ? "border-[#FA8232]" : "border-gray-200"
                   }`}
                 >
                   <img
@@ -86,17 +96,11 @@ const ProductDetail = () => {
         <div className="space-y-6">
           <div className="space-y-2">
             <p className="text-sm text-gray-500">{product.category}</p>
-            <h1 className="text-2xl font-semibold text-gray-800">
-              {product.name}
-            </h1>
+            <h1 className="text-2xl font-semibold text-gray-800">{product.name}</h1>
             <div className="flex items-center gap-3">
-              <span className="text-2xl font-bold text-[#1B6392]">
-                ${product.price}
-              </span>
+              <span className="text-2xl font-bold text-[#1B6392]">${product.price}</span>
               {product.discount && (
-                <span className="text-lg text-gray-500 line-through">
-                  ${product.discount}
-                </span>
+                <span className="text-lg text-gray-500 line-through">${product.discount}</span>
               )}
             </div>
           </div>
@@ -126,9 +130,7 @@ const ProductDetail = () => {
                 </button>
               </div>
               <p className="text-sm text-gray-500">
-                {product.stock > 0
-                  ? `${product.stock} items available`
-                  : "Out of stock"}
+                {product.stock > 0 ? `${product.stock} items available` : "Out of stock"}
               </p>
             </div>
 
@@ -137,9 +139,7 @@ const ProductDetail = () => {
                 onClick={() => addToCart({ ...product, quantity })}
                 disabled={!product.stock}
                 className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-white transition-all duration-300 ${
-                  product.stock
-                    ? "bg-[#FA8232] hover:bg-[#FA8232]/90"
-                    : "bg-gray-400 cursor-not-allowed"
+                  product.stock ? "bg-[#FA8232] hover:bg-[#FA8232]/90" : "bg-gray-400 cursor-not-allowed"
                 }`}
               >
                 <ShoppingCart className="w-5 h-5" />
