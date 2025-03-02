@@ -44,10 +44,10 @@ export default function CategoryCards() {
                         On selected items
                       </div>
                       <a
-                        href="http://localhost:5175/shop"
+                        
                         className="mt-4 px-6 py-2 bg-black/10 hover:bg-black/20 text-black rounded-md text-sm font-medium transition-all duration-200"
-                      >
-                        Shop Now
+                      > <Link to="/shop">Shop Now</Link>
+                        
                       </a>
                     </div>
                   ) : (
