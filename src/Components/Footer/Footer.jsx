@@ -64,8 +64,8 @@ export default function Footer() {
           <ul className="space-y-2 text-md text-gray-300">
             <li> <Link to="/cart">Shopping Cart</Link> </li>
             <li> <Link to="/account">Wishlist</Link> </li>
-            <li> <Link>Customer Help</Link> </li>
-            <li> <Link>About Us</Link> </li>
+            <li> <Link to="/customersupport">Customer Support</Link> </li>
+            <li> <Link to="/aboutus">About Us</Link> </li>
           </ul>
         </div>
 

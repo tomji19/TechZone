@@ -21,6 +21,10 @@ import Gaming from "./Pages/Gaming/Gaming";
 import Smartphones from "./Pages/Smartphones/Smartphones";
 import WearablesAccessories from "./Pages/WearablesAccessories/WearablesAccessories";
 import PCComponents from "./Pages/PCComponents/PCComponents";
+import AboutUs from "./Pages/AboutUs/AboutUs";
+import CustomerSupport from "./Pages/CustomerSupport/CustomerSupport";
+
+
 
 export default function App() {
   // Wishlist state with local storage persistence
@@ -68,6 +72,8 @@ export default function App() {
         { path: "/forgot-password", element: <ForgotPassword /> },
         { path: "/card", element: <ProductCard /> },
         { path: "*", element: <ErrorPage /> },
+        { path: "/aboutus", element: <AboutUs /> },
+        { path: "/customersupport", element: <CustomerSupport /> },
       ],
     },
   ]);
