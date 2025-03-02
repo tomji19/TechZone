@@ -7,9 +7,8 @@ import HomeHotDeals from "./../../Components/HomeHotDeals/HomeHotDeals";
 import HomeCustomersAlsoBought from "../../Components/HomeCustomersAlsoBought/HomeCustomersAlsoBought";
 import HomePromotionSection from "../../Components/HomePromotionSection/HomePromotionSection";
 import HomeGridProductsSection from "./../../Components/HomeGridProductsSection/HomeGridProductsSection";
-// import products from "../../data/products.json";
 
-export default function Home() {
+export default function Home({ user }) {
   return (
     <>
       <HeroSlider />

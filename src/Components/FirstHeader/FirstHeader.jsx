@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom"; // Import useLocation
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../../Components/CartContext/CartContext";
-import { ShoppingCart, X, Plus, Minus, Zap, Search, User } from "lucide-react";
+import { useAuth } from "../../Pages/AuthContextYoussef/AuthContextYoussef";
+import {
+  ShoppingCart,
+  X,
+  Plus,
+  Minus,
+  Zap,
+  Search,
+  User,
+  LogOut,
+} from "lucide-react";
 import SearchBar from "../SearchBar/SearchBar";
 
 export default function FirstHeader() {
@@ -14,36 +24,61 @@ export default function FirstHeader() {
     getTotalItems,
     getTotalPrice,
   } = useCart();
+  const { user, signOut, loading } = useAuth();
+  const navigate = useNavigate();
+  const cartRef = useRef(null);
+  const location = useLocation();
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef(null);
 
-  const cartRef = useRef(null); // Ref to track the cart dropdown
-  const location = useLocation(); // Hook to detect route changes
-
-  // Close cart when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (cartRef.current && !cartRef.current.contains(event.target)) {
+      if (cartRef.current && !cartRef.current.contains(event.target))
         setIsCartOpen(false);
-      }
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target))
+        setShowUserMenu(false);
     };
-
-    if (isCartOpen) {
+    if (isCartOpen || showUserMenu)
       document.addEventListener("mousedown", handleClickOutside);
-    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isCartOpen, setIsCartOpen, showUserMenu]);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isCartOpen, setIsCartOpen]);
-
-  // Close cart when navigating to another page
   useEffect(() => {
-    setIsCartOpen(false); // Close cart on route change
+    setIsCartOpen(false);
+    setShowUserMenu(false);
   }, [location, setIsCartOpen]);
+
+  const handleLogout = async () => {
+    await signOut();
+    setShowUserMenu(false);
+    navigate("/");
+  };
+
+  const navigateToAccount = (e) => {
+    e.preventDefault();
+    setShowUserMenu(false);
+    setTimeout(() => navigate("/account"), 10);
+  };
+
+  const navigateToOrders = (e) => {
+    e.preventDefault();
+    setShowUserMenu(false);
+    setTimeout(() => navigate("/account?tab=orders"), 10);
+  };
+
+  const getUserDisplayName = () => {
+    if (!user) return "";
+    return (
+      user.user_metadata?.display_name ||
+      (user.email ? user.email.split("@")[0] : "User")
+    );
+  };
+
+  if (loading) return null; // Wait for auth to load
 
   return (
     <header className="bg-white shadow-sm py-5 px-4 sm:px-8 md:px-16 relative z-50">
       <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
-        {/* Logo Section */}
         <div className="w-full lg:w-auto flex items-center justify-center lg:justify-start">
           <Link to="/" className="flex items-center">
             <Zap className="h-7 w-7 text-[#4f46e5]" />
@@ -52,13 +87,9 @@ export default function FirstHeader() {
             </span>
           </Link>
         </div>
-
-        {/* Search Bar Section */}
         <div className="w-4/5 lg:flex-1 lg:w-auto order-2 lg:order-none">
           <SearchBar />
         </div>
-
-        {/* Cart and Login Section */}
         <div className="w-full lg:w-auto flex items-center justify-center lg:justify-end gap-3 flex-shrink-0 order-2 lg:order-none">
           <div className="relative">
             <button
@@ -73,11 +104,9 @@ export default function FirstHeader() {
                 </span>
               )}
             </button>
-
-            {/* Cart Dropdown */}
             {isCartOpen && (
               <div
-                ref={cartRef} // Attach ref to the cart dropdown
+                ref={cartRef}
                 className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl z-50 border border-gray-100"
               >
                 <div className="p-4">
@@ -92,7 +121,6 @@ export default function FirstHeader() {
                       <X className="w-5 h-5" />
                     </button>
                   </div>
-
                   {cartItems.length === 0 ? (
                     <p className="text-gray-500 text-center py-4">
                       Your cart is empty
@@ -171,14 +199,52 @@ export default function FirstHeader() {
               </div>
             )}
           </div>
-
-          <Link
-            to="/login"
-            className="text-gray-800 flex items-center rounded-lg px-4 py-2 transition-all duration-300 bg-gradient-to-r from-transparent to-transparent hover:from-blue-50 hover:to-indigo-50 border-2 border-transparent hover:border-indigo-100"
-          >
-            <User className="h-5 w-5 mr-2 text-indigo-600" />
-            <span>Login</span>
-          </Link>
+          {user ? (
+            <div className="relative" ref={userMenuRef}>
+              <button
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="text-gray-800 flex items-center rounded-lg px-4 py-2 transition-all duration-300 bg-gradient-to-r from-transparent to-transparent hover:from-blue-50 hover:to-indigo-50 border-2 border-transparent hover:border-indigo-100"
+              >
+                <User className="h-5 w-5 mr-2 text-indigo-600" />
+                <span className="text-indigo-700 font-medium mr-1">
+                  {getUserDisplayName()}
+                </span>
+              </button>
+              {showUserMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50 border border-gray-100">
+                  <div className="p-2">
+                    <button
+                      onClick={navigateToAccount}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-md"
+                    >
+                      My Account
+                    </button>
+                    <button
+                      onClick={navigateToOrders}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-md"
+                    >
+                      My Orders
+                    </button>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-md"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="text-gray-800 flex items-center rounded-lg px-4 py-2 transition-all duration-300 bg-gradient-to-r from-transparent to-transparent hover:from-blue-50 hover:to-indigo-50 border-2 border-transparent hover:border-indigo-100"
+            >
+              <User className="h-5 w-5 mr-2 text-indigo-600" />
+              <span>Login</span>
+            </Link>
+          )}
         </div>
       </div>
     </header>

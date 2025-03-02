@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Heart, ShoppingCart, Check } from "lucide-react";
 import { useCart } from "../../Components/CartContext/CartContext";
-import { Link } from "react-router-dom";
+import { useAuth } from "../../Pages/AuthContextYoussef/AuthContextYoussef";
 
 // Custom Toast Component
 const Toast = ({ message, product, onClose, type }) => (
   <div
     className="fixed bottom-4 right-4 bg-white border border-indigo-500/20 shadow-lg rounded-lg p-4 animate-slide-up"
-    style={{
-      animation: 'slideUp 0.3s ease-out',
-      zIndex: 1000,
-    }}
+    style={{ animation: "slideUp 0.3s ease-out", zIndex: 1000 }}
   >
     <div className="flex items-center gap-3">
       <div
-        className={`rounded-full p-1.5 ${type === "wishlist"
-          ? "bg-pink-600"
-          : "bg-gradient-to-r from-blue-700 to-indigo-900"
-          }`}
+        className={`rounded-full p-1.5 ${
+          type === "wishlist"
+            ? "bg-pink-600"
+            : "bg-gradient-to-r from-blue-700 to-indigo-900"
+        }`}
       >
         <Check className="w-5 h-5 text-white" />
       </div>
@@ -27,8 +25,9 @@ const Toast = ({ message, product, onClose, type }) => (
           {type === "wishlist" ? "Added to Wishlist!" : "Added to Cart!"}
         </p>
         <p
-          className={`text-xs ${type === "wishlist" ? "text-pink-600" : "text-indigo-600"
-            }`}
+          className={`text-xs ${
+            type === "wishlist" ? "text-pink-600" : "text-indigo-600"
+          }`}
         >
           {product?.name}
         </p>
@@ -40,27 +39,21 @@ const Toast = ({ message, product, onClose, type }) => (
 export default function HomeCustomersAlsoBought() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { user, userData, addToWishlist, removeFromWishlist, loading } =
+    useAuth();
   const [products, setProducts] = useState([]);
   const [toast, setToast] = useState(null);
-  const [wishlist, setWishlist] = useState([]);
-
-
-  // Load wishlist from localStorage on component mount
-  useEffect(() => {
-    const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    setWishlist(savedWishlist);
-  }, []);
 
   useEffect(() => {
-    fetch('http://localhost:5000/products')
-      .then(response => response.json())
-      .then(data => {
+    fetch("http://localhost:5000/products")
+      .then((response) => response.json())
+      .then((data) => {
         const shuffled = [...data].sort(() => 0.5 - Math.random());
         const randomProducts = shuffled.slice(0, 10);
         setProducts(randomProducts);
       })
-      .catch(error => {
-        console.error('Error fetching products:', error);
+      .catch((error) => {
+        console.error("Error fetching products:", error);
         setProducts([]);
       });
   }, []);
@@ -72,52 +65,36 @@ export default function HomeCustomersAlsoBought() {
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
     addToCart(product);
-
-    // Show toast
     setToast({ message: "Product added to cart", product, type: "cart" });
-
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-      setToast(null);
-    }, 3000);
+    setTimeout(() => setToast(null), 3000);
   };
 
-  // Check if product is in wishlist
   const isInWishlist = (productId) => {
-    return wishlist.some((item) => item.id === productId);
+    return userData.wishlist.some((item) => item.id === productId);
   };
 
-  // Toggle wishlist
   const toggleWishlist = (e, product) => {
     e.stopPropagation();
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
     if (isInWishlist(product.id)) {
-      // Remove from wishlist
-      const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
-      setWishlist(updatedWishlist);
-      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-
-      // Show removal toast
+      removeFromWishlist(product.id);
       setToast({
         message: "Removed from wishlist",
         product,
         type: "wishlist-remove",
       });
     } else {
-      // Add to wishlist
-      const updatedWishlist = [...wishlist, product];
-      setWishlist(updatedWishlist);
-      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-
-      // Show addition toast
+      addToWishlist(product);
       setToast({ message: "Added to wishlist", product, type: "wishlist" });
     }
-
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-      setToast(null);
-    }, 3000);
+    setTimeout(() => setToast(null), 3000);
   };
+
+  if (loading) return null;
 
   return (
     <section className="py-5 px-4 sm:px-8 lg:px-16">
@@ -125,15 +102,15 @@ export default function HomeCustomersAlsoBought() {
         <h2 className="text-2xl font-semibold heading-font">
           Customers Also Bought
         </h2>
-        <a
-
+        <Link
+          to="/shop"
           className="text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
-        > <Link to="/shop" > Browse All Products → </Link>
-
-        </a>
+        >
+          Browse All Products →
+        </Link>
       </div>
 
-      <div className="min-h-screen"> 
+      <div className="min-h-screen">
         <div className="flex flex-col lg:flex-row lg:gap-3 items-stretch">
           <div className="w-full">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-6 lg:gap-4">
@@ -169,10 +146,11 @@ export default function HomeCustomersAlsoBought() {
                     </div>
                     <div className="flex gap-1 mt-3">
                       <button
-                        className={`p-1.5 rounded-lg border transition-all duration-200 ${isInWishlist(product.id)
-                          ? "border-pink-200 bg-pink-50 hover:bg-pink-100"
-                          : "border-gray-200 hover:bg-gray-50"
-                          }`}
+                        className={`p-1.5 rounded-lg border transition-all duration-200 ${
+                          isInWishlist(product.id)
+                            ? "border-pink-200 bg-pink-50 hover:bg-pink-100"
+                            : "border-gray-200 hover:bg-gray-50"
+                        }`}
                         onClick={(e) => toggleWishlist(e, product)}
                         aria-label={
                           isInWishlist(product.id)
@@ -181,10 +159,11 @@ export default function HomeCustomersAlsoBought() {
                         }
                       >
                         <Heart
-                          className={`w-4 h-4 transition-colors ${isInWishlist(product.id)
-                            ? "text-pink-600 fill-pink-600"
-                            : "text-gray-600"
-                            }`}
+                          className={`w-4 h-4 transition-colors ${
+                            isInWishlist(product.id)
+                              ? "text-pink-600 fill-pink-600"
+                              : "text-gray-600"
+                          }`}
                         />
                       </button>
                       <button
@@ -203,38 +182,43 @@ export default function HomeCustomersAlsoBought() {
         </div>
       </div>
 
-      {/* Toast Notification */}
       {toast && <Toast {...toast} onClose={() => setToast(null)} />}
 
-      {/* Add the animation styles */}
-      <style>
-        {`
-          @keyframes slideUp {
-            from {
-              transform: translateY(100%);
-              opacity: 0;
-            }
-            to {
-              transform: translateY(0);
-              opacity: 1;
-            }
+      <style jsx>{`
+        @keyframes slideUp {
+          from {
+            transform: translateY(100%);
+            opacity: 0;
           }
-          .animate-slide-up {
-            animation: slideUp 0.3s ease-out;
+          to {
+            transform: translateY(0);
+            opacity: 1;
           }
-          
-          @keyframes heartBeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.3); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.3); }
-            70% { transform: scale(1); }
+        }
+        .animate-slide-up {
+          animation: slideUp 0.3s ease-out;
+        }
+        @keyframes heartBeat {
+          0% {
+            transform: scale(1);
           }
-          .heart-beat {
-            animation: heartBeat 1s;
+          14% {
+            transform: scale(1.3);
           }
-        `}
-      </style>
+          28% {
+            transform: scale(1);
+          }
+          42% {
+            transform: scale(1.3);
+          }
+          70% {
+            transform: scale(1);
+          }
+        }
+        .heart-beat {
+          animation: heartBeat 1s;
+        }
+      `}</style>
     </section>
   );
 }

@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Heart, ShoppingCart, Check } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  Heart,
+  ShoppingCart,
+  Check,
+  ShoppingBag,
+  Zap,
+  ArrowRight,
+} from "lucide-react";
 import { useCart } from "../../Components/CartContext/CartContext";
+import { useAuth } from "../../Pages/AuthContextYoussef/AuthContextYoussef";
 import airpod from "../../assets/airpod.png";
-import { ShoppingBag, Zap, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-
 
 // Custom Toast Component
 const Toast = ({ message, product, onClose, type }) => (
   <div
     className="fixed bottom-4 right-4 bg-white border border-indigo-500/20 shadow-lg rounded-lg p-4 animate-slide-up"
-    style={{
-      animation: "slideUp 0.3s ease-out",
-      zIndex: 1000,
-    }}
+    style={{ animation: "slideUp 0.3s ease-out", zIndex: 1000 }}
   >
     <div className="flex items-center gap-3">
       <div
-        className={`rounded-full p-1.5 ${type === "wishlist"
-          ? "bg-pink-600"
-          : "bg-gradient-to-r from-blue-700 to-indigo-900"
-          }`}
+        className={`rounded-full p-1.5 ${
+          type === "wishlist"
+            ? "bg-pink-600"
+            : "bg-gradient-to-r from-blue-700 to-indigo-900"
+        }`}
       >
         <Check className="w-5 h-5 text-white" />
       </div>
@@ -30,8 +33,9 @@ const Toast = ({ message, product, onClose, type }) => (
           {type === "wishlist" ? "Added to Wishlist!" : "Added to Cart!"}
         </p>
         <p
-          className={`text-xs ${type === "wishlist" ? "text-pink-600" : "text-indigo-600"
-            }`}
+          className={`text-xs ${
+            type === "wishlist" ? "text-pink-600" : "text-indigo-600"
+          }`}
         >
           {product?.name}
         </p>
@@ -43,16 +47,10 @@ const Toast = ({ message, product, onClose, type }) => (
 export default function HomeFeaturedProductsSection() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { user, userData, addToWishlist, removeFromWishlist, loading } =
+    useAuth();
   const [products, setProducts] = useState([]);
   const [toast, setToast] = useState(null);
-  const [wishlist, setWishlist] = useState([]);
-  
-
-  // Load wishlist from localStorage on component mount
-  useEffect(() => {
-    const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    setWishlist(savedWishlist);
-  }, []);
 
   useEffect(() => {
     fetch("http://localhost:5000/products")
@@ -73,10 +71,7 @@ export default function HomeFeaturedProductsSection() {
               "https://m.media-amazon.com/images/I/61lAGP5afpL._AC_SX679_.jpg",
             category: "Laptops",
             brand: "Apple",
-            rating: {
-              score: 4.8,
-              reviews: 1500,
-            },
+            rating: { score: 4.8, reviews: 1500 },
           },
           {
             id: "2",
@@ -85,10 +80,7 @@ export default function HomeFeaturedProductsSection() {
             image1: "/api/placeholder/300/300",
             category: "Smartphones",
             brand: "Samsung",
-            rating: {
-              score: 4.7,
-              reviews: 930,
-            },
+            rating: { score: 4.7, reviews: 930 },
           },
           {
             id: "3",
@@ -97,10 +89,7 @@ export default function HomeFeaturedProductsSection() {
             image1: "/api/placeholder/300/300",
             category: "Audio",
             brand: "Sony",
-            rating: {
-              score: 4.9,
-              reviews: 1230,
-            },
+            rating: { score: 4.9, reviews: 1230 },
           },
           {
             id: "4",
@@ -109,10 +98,7 @@ export default function HomeFeaturedProductsSection() {
             image1: "/api/placeholder/300/300",
             category: "Tablets",
             brand: "Apple",
-            rating: {
-              score: 4.8,
-              reviews: 750,
-            },
+            rating: { score: 4.8, reviews: 750 },
           },
           {
             id: "5",
@@ -121,10 +107,7 @@ export default function HomeFeaturedProductsSection() {
             image1: "/api/placeholder/300/300",
             category: "Laptops",
             brand: "Dell",
-            rating: {
-              score: 4.6,
-              reviews: 520,
-            },
+            rating: { score: 4.6, reviews: 520 },
           },
           {
             id: "6",
@@ -133,10 +116,7 @@ export default function HomeFeaturedProductsSection() {
             image1: "/api/placeholder/300/300",
             category: "Audio",
             brand: "Apple",
-            rating: {
-              score: 4.8,
-              reviews: 3200,
-            },
+            rating: { score: 4.8, reviews: 3200 },
           },
           {
             id: "7",
@@ -145,10 +125,7 @@ export default function HomeFeaturedProductsSection() {
             image1: "/api/placeholder/300/300",
             category: "TVs",
             brand: "LG",
-            rating: {
-              score: 4.9,
-              reviews: 890,
-            },
+            rating: { score: 4.9, reviews: 890 },
           },
           {
             id: "8",
@@ -157,10 +134,7 @@ export default function HomeFeaturedProductsSection() {
             image1: "/api/placeholder/300/300",
             category: "Audio",
             brand: "Bose",
-            rating: {
-              score: 4.7,
-              reviews: 650,
-            },
+            rating: { score: 4.7, reviews: 650 },
           },
         ];
         const randomSampleProducts = sampleData
@@ -170,8 +144,6 @@ export default function HomeFeaturedProductsSection() {
       });
   }, []);
 
-
-
   const handleProductClick = (product) => {
     navigate(`/product/${product.id}`, { state: { product } });
   };
@@ -179,62 +151,43 @@ export default function HomeFeaturedProductsSection() {
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
     addToCart(product);
-
-    // Show toast
     setToast({ message: "Product added to cart", product, type: "cart" });
-
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-      setToast(null);
-    }, 3000);
+    setTimeout(() => setToast(null), 3000);
   };
 
-  // Check if product is in wishlist
   const isInWishlist = (productId) => {
-    return wishlist.some((item) => item.id === productId);
+    return userData.wishlist.some((item) => item.id === productId);
   };
 
-  // Toggle wishlist
   const toggleWishlist = (e, product) => {
     e.stopPropagation();
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
     if (isInWishlist(product.id)) {
-      // Remove from wishlist
-      const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
-      setWishlist(updatedWishlist);
-      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-
-      // Show removal toast
+      removeFromWishlist(product.id);
       setToast({
         message: "Removed from wishlist",
         product,
         type: "wishlist-remove",
       });
     } else {
-      // Add to wishlist
-      const updatedWishlist = [...wishlist, product];
-      setWishlist(updatedWishlist);
-      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-
-      // Show addition toast
+      addToWishlist(product);
       setToast({ message: "Added to wishlist", product, type: "wishlist" });
     }
-
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-      setToast(null);
-    }, 3000);
+    setTimeout(() => setToast(null), 3000);
   };
+
+  if (loading) return null;
 
   return (
     <section className="py-5 px-4 sm:px-8 lg:px-16">
       <div className="min-h-screen">
         <div className="flex flex-col lg:flex-row lg:gap-7">
-          {/* Promotional Banners */}
           <div className="hidden lg:flex flex-col w-[26%] h-full gap-6 sticky top-0">
-            {/* Top Banner - With colors matched to background */}
-            <div className="relative h-1/2 bg-[#e0e7ff] rounded-xl shadow-sm overflow-hidden flex flex-col items-center justify-center text-center group border border-indigo-100 hover:border-indigo-200 transition-colors duration-300 ">
-              {/* Simplified Background Pattern */}
+            <div className="relative h-1/2 bg-[#e0e7ff] rounded-xl shadow-sm overflow-hidden flex flex-col items-center justify-center text-center group border border-indigo-100 hover:border-indigo-200 transition-colors duration-300">
               <div className="absolute inset-0">
                 <svg
                   width="100%"
@@ -257,20 +210,11 @@ export default function HomeFeaturedProductsSection() {
                       />
                     </pattern>
                   </defs>
-                  <rect
-                    width="100%"
-                    height="100%"
-                    fill="url(#simplePattern)"
-                  />
+                  <rect width="100%" height="100%" fill="url(#simplePattern)" />
                 </svg>
-
-                {/* Subtle highlight - Updated to match background */}
                 <div className="absolute top-1/3 right-1/3 w-40 h-40 bg-indigo-300 rounded-full filter blur-3xl opacity-10 group-hover:opacity-15 transition-opacity duration-300"></div>
               </div>
-
-              {/* Content - Matching color scheme */}
               <div className="p-6 flex flex-col items-center justify-center h-full text-center z-10">
-                {/* Ramadan Special Badge - Updated colors */}
                 <div className="bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200 mb-3">
                   <span className="text-xs font-semibold text-indigo-700 flex items-center gap-1">
                     <svg
@@ -290,11 +234,8 @@ export default function HomeFeaturedProductsSection() {
                     RAMADAN SPECIAL
                   </span>
                 </div>
-
-                {/* Product Info - Same structure */}
                 <div className="flex flex-col items-center justify-center flex-grow">
                   <div className="relative mb-4">
-                    {/* Simplified glow - Updated color */}
                     <div className="absolute inset-0 bg-indigo-300/20 blur-2xl rounded-full transform scale-75 group-hover:bg-indigo-300/30 transition-all duration-300"></div>
                     <img
                       src={airpod}
@@ -308,8 +249,6 @@ export default function HomeFeaturedProductsSection() {
                   <p className="text-gray-600 text-sm mb-4 max-w-[200px]">
                     Premium gifts for the blessed month
                   </p>
-
-                  {/* Ornate price tag - Updated colors */}
                   <div className="relative bg-white border border-indigo-200 px-4 py-2 rounded-lg mb-4 transform group-hover:scale-105 transition-transform duration-300 shadow-sm">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-indigo-700 text-xl">
@@ -319,9 +258,10 @@ export default function HomeFeaturedProductsSection() {
                     </div>
                   </div>
                 </div>
-
-                {/* Button - Updated to match banner background theme */}
-                <button onClick={() => navigate("/shop")} className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm  flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]">
+                <button
+                  onClick={() => navigate("/shop")}
+                  className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -342,9 +282,7 @@ export default function HomeFeaturedProductsSection() {
                 </button>
               </div>
             </div>
-            {/* Bottom Banner - Updated with indigo color scheme */}
             <div className="relative h-1/2 bg-[#e0e7ff] rounded-xl shadow-sm overflow-hidden flex flex-col items-center justify-center text-center group border border-indigo-100 hover:border-indigo-200 transition-colors duration-300">
-              {/* Simplified Background Pattern */}
               <div className="absolute inset-0">
                 <svg
                   width="100%"
@@ -365,12 +303,7 @@ export default function HomeFeaturedProductsSection() {
                         stroke="#4F46E5"
                         strokeWidth="0.5"
                       />
-                      <circle
-                        cx="30"
-                        cy="30"
-                        r="1.5"
-                        fill="#4F46E5"
-                      />
+                      <circle cx="30" cy="30" r="1.5" fill="#4F46E5" />
                     </pattern>
                   </defs>
                   <rect
@@ -379,28 +312,21 @@ export default function HomeFeaturedProductsSection() {
                     fill="url(#simpleDiamondPattern)"
                   />
                 </svg>
-
-                {/* Subtle highlight - Updated to indigo */}
                 <div className="absolute top-1/4 right-1/4 w-40 h-40 bg-indigo-300 rounded-full filter blur-3xl opacity-10 group-hover:opacity-15 transition-opacity duration-300"></div>
                 <div className="absolute bottom-1/4 left-1/4 w-40 h-40 bg-indigo-300 rounded-full filter blur-3xl opacity-10 group-hover:opacity-15 transition-opacity duration-300"></div>
               </div>
-
               <div className="p-6 flex flex-col items-center justify-center h-full text-center z-10">
-                {/* Top Section - Premium Badge - Updated to indigo */}
                 <div className="bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200 mb-3">
                   <span className="text-xs font-semibold text-indigo-700 flex items-center gap-1">
                     ULTRA PREMIUM
                   </span>
                 </div>
-
                 <h2 className="text-2xl font-bold text-gray-800 mb-2">
                   Ramadan Collection
                 </h2>
                 <p className="text-gray-600 text-sm mb-5 max-w-[220px]">
                   Limited edition flagship smartphones
                 </p>
-
-                {/* Middle - Diamond Shape with Price Inside - Updated to indigo */}
                 <div className="relative mb-5 transform group-hover:scale-110 transition-transform duration-300">
                   <div className="absolute inset-0 bg-gradient-to-br from-indigo-300/10 to-indigo-300/10 rounded-lg blur-xl"></div>
                   <div className="relative bg-white border border-indigo-200 p-4 rounded-lg shadow-sm">
@@ -412,29 +338,28 @@ export default function HomeFeaturedProductsSection() {
                     </div>
                   </div>
                 </div>
-
-                {/* Bottom Button - Updated to indigo */}
-                <button onClick={() => navigate("/shop")} className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm  flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]">
+                <button
+                  onClick={() => navigate("/shop")}
+                  className="w-full py-3 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] text-sm flex items-center justify-center gap-2 transition-all duration-300 shadow-sm group-hover:shadow-md transform group-hover:translate-y-[-2px]"
+                >
                   Explore Collection
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
               </div>
             </div>
           </div>
-
-          {/* Product Grid */}
           <div className="w-full">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold heading-font">
                 Featured Products
               </h2>
               <div className="flex items-center gap-4">
-                <a
-                  
+                <Link
+                  to="/shop"
                   className="text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
-                > <Link to= "/shop" > Browse All Products → </Link>
-                  
-                </a>
+                >
+                  Browse All Products →
+                </Link>
               </div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-4">
@@ -470,10 +395,11 @@ export default function HomeFeaturedProductsSection() {
                     </div>
                     <div className="flex gap-1 mt-3">
                       <button
-                        className={`p-1.5 rounded-lg border transition-all duration-200 ${isInWishlist(product.id)
-                          ? "border-pink-200 bg-pink-50 hover:bg-pink-100"
-                          : "border-gray-200 hover:bg-gray-50"
-                          }`}
+                        className={`p-1.5 rounded-lg border transition-all duration-200 ${
+                          isInWishlist(product.id)
+                            ? "border-pink-200 bg-pink-50 hover:bg-pink-100"
+                            : "border-gray-200 hover:bg-gray-50"
+                        }`}
                         onClick={(e) => toggleWishlist(e, product)}
                         aria-label={
                           isInWishlist(product.id)
@@ -482,10 +408,11 @@ export default function HomeFeaturedProductsSection() {
                         }
                       >
                         <Heart
-                          className={`w-4 h-4 transition-colors ${isInWishlist(product.id)
-                            ? "text-pink-600 fill-pink-600"
-                            : "text-gray-600"
-                            }`}
+                          className={`w-4 h-4 transition-colors ${
+                            isInWishlist(product.id)
+                              ? "text-pink-600 fill-pink-600"
+                              : "text-gray-600"
+                          }`}
                         />
                       </button>
                       <button
@@ -503,39 +430,42 @@ export default function HomeFeaturedProductsSection() {
           </div>
         </div>
       </div>
-
-      {/* Toast Notification */}
       {toast && <Toast {...toast} onClose={() => setToast(null)} />}
-
-      {/* Add the animation styles */}
-      <style>
-        {`
-          @keyframes slideUp {
-            from {
-              transform: translateY(100%);
-              opacity: 0;
-            }
-            to {
-              transform: translateY(0);
-              opacity: 1;
-            }
+      <style jsx>{`
+        @keyframes slideUp {
+          from {
+            transform: translateY(100%);
+            opacity: 0;
           }
-          .animate-slide-up {
-            animation: slideUp 0.3s ease-out;
+          to {
+            transform: translateY(0);
+            opacity: 1;
           }
-          
-          @keyframes heartBeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.3); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.3); }
-            70% { transform: scale(1); }
+        }
+        .animate-slide-up {
+          animation: slideUp 0.3s ease-out;
+        }
+        @keyframes heartBeat {
+          0% {
+            transform: scale(1);
           }
-          .heart-beat {
-            animation: heartBeat 1s;
+          14% {
+            transform: scale(1.3);
           }
-        `}
-      </style>
+          28% {
+            transform: scale(1);
+          }
+          42% {
+            transform: scale(1.3);
+          }
+          70% {
+            transform: scale(1);
+          }
+        }
+        .heart-beat {
+          animation: heartBeat 1s;
+        }
+      `}</style>
     </section>
   );
 }

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, ShoppingBag, Zap } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../Pages/AuthContextYoussef/AuthContextYoussef";
 
 export default function EyeCatchingHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const { user, loading } = useAuth();
 
-  // Navigation categories with icons and colors
   const categories = [
     {
       name: "Shop All",
@@ -200,8 +201,8 @@ export default function EyeCatchingHeader() {
       ),
     },
     {
-      name: "Account",
-      path: "/account",
+      name: user ? "Account" : "Login",
+      path: user ? "/account" : "/login",
       color: "#16a34a",
       icon: (
         <svg
@@ -221,60 +222,48 @@ export default function EyeCatchingHeader() {
     },
   ];
 
-  // Add effect to handle screen resize
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setIsMenuOpen(false);
-      }
+      if (window.innerWidth >= 1024) setIsMenuOpen(false);
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  if (loading) return null;
 
   return (
     <header className="relative z-1 overflow-hidden px-4 sm:px-8 md:px-16">
-      {/* Animated background */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-950 shadow-xl">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute left-0 top-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPHBhdHRlcm4gaWQ9ImhleGFnb25zIiB3aWR0aD0iNTAiIGhlaWdodD0iNDMuMyIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDMwKSI+CiAgICAgIDxwYXRoIGQ9Ik0yNSAyOC41NjY1TDEyLjUgNDMuMyAwIDI4LjU2NjUgMTIuNSAxMy44MzMgMjUgMjguNTY2NXpNMzcuNSA0My4zTDI1IDI4LjU2NjUgMzcuNSAxMy44MzMgNTAgMjguNTY2NSAzNy41IDQzLjN6IiBzdHJva2U9IiNmZmYiIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMS4yIi8+CiAgICA8L3BhdHRlcm4+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjaGV4YWdvbnMpIiAvPgo8L3N2Zz4K')]" />
         </div>
       </div>
-
-      {/* Desktop Navigation */}
       <div className="container mx-auto relative z-10">
         <div className="hidden lg:flex items-center">
-          {/* Brand Logo */}
           <div className="flex items-center mr-8">
             <Zap className="text-white h-7 w-7" />
             <span className="ml-2 text-white font-bold text-xl">TechZone</span>
           </div>
-
-          {/* Navigation Links */}
           <nav className="flex">
             {categories.map((category, index) => (
               <NavLink
                 key={index}
                 to={category.path}
-                className={({ isActive }) => `
-                  relative group overflow-hidden py-5 px-4 text-white flex items-center transition-all duration-300
-                  ${isActive ? "font-bold" : "font-medium"}
-                `}
+                className={({ isActive }) =>
+                  `relative group overflow-hidden py-5 px-4 text-white flex items-center transition-all duration-300 ${
+                    isActive ? "font-bold" : "font-medium"
+                  }`
+                }
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
-                {/* Icon */}
                 <span className="transition-transform duration-300 group-hover:scale-110 flex items-center">
                   {category.icon}
                   <span>{category.name}</span>
                 </span>
-
-                {/* Hover Effect */}
                 <span
                   className={`absolute bottom-0 left-0 w-full h-1 transform transition-all duration-300 ${
                     hoveredIndex === index
@@ -283,8 +272,6 @@ export default function EyeCatchingHeader() {
                   }`}
                   style={{ backgroundColor: category.color }}
                 />
-
-                {/* Active Indicator */}
                 {({ isActive }) =>
                   isActive && (
                     <span
@@ -293,8 +280,6 @@ export default function EyeCatchingHeader() {
                     />
                   )
                 }
-
-                {/* Animated Glow Effect on Hover */}
                 {hoveredIndex === index && (
                   <span
                     className="absolute inset-0 opacity-20 rounded-full blur-xl transition-opacity duration-300"
@@ -306,8 +291,6 @@ export default function EyeCatchingHeader() {
           </nav>
         </div>
       </div>
-
-      {/* Mobile Navigation Button */}
       <div className="lg:hidden flex justify-between items-center px-4 py-3 relative z-10">
         <div className="text-white font-bold text-xl flex items-center">
           <Zap className="mr-2" size={24} />
@@ -321,16 +304,12 @@ export default function EyeCatchingHeader() {
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
-
-      {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40"
           onClick={toggleMenu}
         />
       )}
-
-      {/* Mobile Menu Slide-out */}
       <div
         className={`fixed top-0 right-0 w-4/5 max-w-sm h-full bg-gradient-to-b from-blue-700 to-indigo-900 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
@@ -349,15 +328,15 @@ export default function EyeCatchingHeader() {
             <X size={24} />
           </button>
         </div>
-
         <nav className="py-2">
           {categories.map((category, index) => (
             <NavLink
               key={index}
               to={category.path}
               className={({ isActive }) =>
-                `text-white font-medium px-6 py-4 flex items-center transition-all duration-200
-                ${isActive ? "bg-white/20 font-bold" : "hover:bg-white/10"}`
+                `text-white font-medium px-6 py-4 flex items-center transition-all duration-200 ${
+                  isActive ? "bg-white/20 font-bold" : "hover:bg-white/10"
+                }`
               }
               style={{
                 borderLeft: ({ isActive }) =>
