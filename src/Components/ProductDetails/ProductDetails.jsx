@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Heart, ShoppingCart, ChevronLeft, Plus, Minus } from "lucide-react";
 import { useCart } from "../../Components/CartContext/CartContext";
@@ -9,8 +9,14 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { addToCart, cartItems } = useCart();
   const [product, setProduct] = useState(location.state?.product || null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(location.state?.product?.image1 || null);
   const [quantity, setQuantity] = useState(1);
+  
+  // Magnifier state and refs
+  const [showMagnifier, setShowMagnifier] = useState(false);
+  const [magnifierPosition, setMagnifierPosition] = useState({ x: 0, y: 0 });
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const imageContainerRef = useRef(null);
 
   useEffect(() => {
     if (!product) {
@@ -30,7 +36,7 @@ const ProductDetail = () => {
           navigate("/shop"); // Redirect if product not found
         });
     }
-  }, [id, navigate]); // Fixed dependency array
+  }, [id, navigate, product]);
 
   const handleQuantityChange = (action) => {
     if (action === "increase") {
@@ -40,7 +46,34 @@ const ProductDetail = () => {
     }
   };
 
-  const isInCart = cartItems.some((item) => item.id === product?.id); // Fixed missing variable
+  const handleMouseEnter = () => {
+    setShowMagnifier(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowMagnifier(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (imageContainerRef.current) {
+      const { left, top, width, height } = imageContainerRef.current.getBoundingClientRect();
+      
+      // Calculate cursor position relative to the image container
+      const x = ((e.clientX - left) / width) * 100;
+      const y = ((e.clientY - top) / height) * 100;
+      
+      // Set cursor position (as percentage) for background image positioning
+      setCursorPosition({ x, y });
+      
+      // Set magnifier position at cursor
+      setMagnifierPosition({ 
+        x: e.clientX - left, 
+        y: e.clientY - top 
+      });
+    }
+  };
+
+  const isInCart = cartItems.some((item) => item.id === product?.id);
 
   if (!product) {
     return (
@@ -64,13 +97,38 @@ const ProductDetail = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Image Section */}
         <div className="space-y-4">
-          <div className="aspect-square bg-white rounded-xl overflow-hidden">
+          <div 
+            ref={imageContainerRef}
+            className="relative w-80 h-80 bg-white rounded-xl overflow-hidden mx-auto cursor-zoom-in"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onMouseMove={handleMouseMove}
+          >
             <img
               src={selectedImage}
               alt={product.name}
               className="w-full h-full object-contain"
             />
+            
+            {/* Magnifier glass */}
+            {showMagnifier && (
+              <div 
+                className="absolute pointer-events-none border-2 border-[#3b3ccd] rounded-full overflow-hidden bg-white"
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  left: magnifierPosition.x - 60,
+                  top: magnifierPosition.y - 60,
+                  backgroundImage: `url(${selectedImage})`,
+                  backgroundPosition: `${cursorPosition.x}% ${cursorPosition.y}%`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "300%", // Zoom level
+                  zIndex: 10
+                }}
+              />
+            )}
           </div>
+
           <div className="grid grid-cols-4 gap-4">
             {[product.image1, product.image2, product.image3, product.image4]
               .filter(Boolean)
@@ -79,7 +137,7 @@ const ProductDetail = () => {
                   key={index}
                   onClick={() => setSelectedImage(image)}
                   className={`aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                    selectedImage === image ? "border-[#FA8232]" : "border-gray-200"
+                    selectedImage === image ? "border-[#3b3ccd]" : "border-gray-200"
                   }`}
                 >
                   <img
