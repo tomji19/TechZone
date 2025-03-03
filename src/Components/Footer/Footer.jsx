@@ -12,7 +12,7 @@ export default function Footer() {
       </div>
 
       {/* Main footer content with improved grid */}
-      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {/* Company Info */}
         <div className="flex flex-col items-start z-10">
           <div className="flex items-center mb-4">
@@ -120,7 +120,7 @@ export default function Footer() {
         </div>
 
         {/* Popular Tags */}
-        <div className="z-10">
+        {/* <div className="z-10">
           <h3 className="text-white text-lg md:text-2xl font-semibold mb-3 md:mb-4">
             Popular Tags
           </h3>
@@ -144,7 +144,7 @@ export default function Footer() {
               </span>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Bottom */}
