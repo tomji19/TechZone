@@ -77,7 +77,7 @@ export default function FirstHeader() {
   if (loading) return null; // Wait for auth to load
 
   return (
-    <header className="bg-white shadow-sm py-5 px-4 sm:px-8 md:px-16 relative z-50">
+    <header className="bg-white shadow-sm py-5 px-4 sm:px-8 md:px-16 relative z-50 max-sm:hidden">
       <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
         <div className="w-full lg:w-auto flex items-center justify-center lg:justify-start">
           <Link to="/" className="flex items-center">

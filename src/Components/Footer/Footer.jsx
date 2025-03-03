@@ -15,7 +15,7 @@ export default function Footer() {
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {/* Company Info */}
         <div className="flex flex-col items-start z-10">
-          <div className="flex items-center mb-4">
+        <div className="flex items-center mb-4">
             <Zap className="text-white h-6 w-6 md:h-7 md:w-7" />
             <span className="ml-2 text-white font-bold text-2xl md:text-3xl">
               TechZone
