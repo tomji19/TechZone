@@ -47,7 +47,13 @@ export default function Shop() {
   const [toast, setToast] = useState(null);
   const navigate = useNavigate();
   const { addToCart, cartItems } = useCart();
-  const { user, userData, addToWishlist, removeFromWishlist, loading: authLoading } = useAuth();
+  const {
+    user,
+    userData,
+    addToWishlist,
+    removeFromWishlist,
+    loading: authLoading,
+  } = useAuth();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -72,6 +78,11 @@ export default function Shop() {
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
+    if (product.stock === "out of stock") {
+      setToast({ message: "Product is out of stock", product, type: "error" });
+      setTimeout(() => setToast(null), 3000);
+      return;
+    }
     addToCart(product);
     setToast({ message: "Product added to cart", product, type: "cart" });
     setTimeout(() => setToast(null), 3000);
@@ -87,8 +98,9 @@ export default function Shop() {
       !selectedCategory || product.category === selectedCategory;
     const isStockStatusMatch =
       !selectedStockStatus ||
-      (selectedStockStatus === "In Stock" && product.stock > 0) ||
-      (selectedStockStatus === "Out of Stock" && product.stock === 0);
+      (selectedStockStatus === "In Stock" && product.stock === "in stock") ||
+      (selectedStockStatus === "Out of Stock" &&
+        product.stock === "out of stock");
     const isPriceRangeMatch =
       (priceRange.min === "" || product.price >= parseFloat(priceRange.min)) &&
       (priceRange.max === "" || product.price <= parseFloat(priceRange.max));
@@ -199,8 +211,7 @@ export default function Shop() {
                       type="radio"
                       name="stockStatus"
                       checked={
-                        selectedStockStatus ===
-                        (status === "All" ? "" : status)
+                        selectedStockStatus === (status === "All" ? "" : status)
                       }
                       onChange={() =>
                         setSelectedStockStatus(status === "All" ? "" : status)
@@ -257,7 +268,7 @@ export default function Shop() {
           </div>
         </div>
       </div>
-    ); // Added missing closing parenthesis here
+    );
   };
 
   if (loading || authLoading) {
@@ -303,11 +314,14 @@ export default function Shop() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredProducts.map((product) => {
               const isInCart = cartItems.some((item) => item.id === product.id);
+              const isOutOfStock = product.stock === "out of stock";
               return (
                 <div
                   key={product.id}
                   onClick={() => handleProductClick(product)}
-                  className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 group relative cursor-pointer"
+                  className={`bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 group relative cursor-pointer ${
+                    isOutOfStock ? "opacity-75" : ""
+                  }`}
                 >
                   <div className="relative h-48 md:h-64">
                     <img
@@ -318,6 +332,11 @@ export default function Shop() {
                     {product.discount && (
                       <span className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-sm text-sm">
                         Sale
+                      </span>
+                    )}
+                    {isOutOfStock && (
+                      <span className="absolute top-3 right-3 bg-gray-600 text-white px-2 py-1 rounded-sm text-xs">
+                        Out of Stock
                       </span>
                     )}
                   </div>
@@ -362,10 +381,15 @@ export default function Shop() {
                       </button>
                       <button
                         onClick={(e) => handleAddToCart(e, product)}
-                        className="flex-1 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-medium py-1.5 px-3 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-1 text-xs"
+                        className={`flex-1 font-medium py-1.5 px-3 rounded-lg flex items-center justify-center gap-1 text-xs ${
+                          isOutOfStock
+                            ? "bg-gray-400 text-white cursor-not-allowed"
+                            : "bg-gradient-to-r from-blue-700 to-indigo-900 text-white hover:bg-blue-600"
+                        }`}
+                        disabled={isOutOfStock}
                       >
                         <ShoppingCart className="w-4 h-4" />
-                        {isInCart ? "Added" : "Add to Cart"}
+                        {isInCart && !isOutOfStock ? "Added" : "Add to Cart"}
                       </button>
                     </div>
                   </div>
@@ -376,7 +400,13 @@ export default function Shop() {
         </div>
       </div>
 
-      {toast && <Toast {...toast} onClose={() => setToast(null)} />}
+      {toast && (
+        <Toast
+          {...toast}
+          onClose={() => setToast(null)}
+          type={toast.type === "error" ? "error" : toast.type}
+        />
+      )}
 
       <style jsx>{`
         @keyframes slideUp {

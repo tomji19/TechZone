@@ -7,21 +7,21 @@ import { useAuth } from "../../Pages/AuthContextYoussef/AuthContextYoussef";
 // Custom Toast Component
 const Toast = ({ message, product, onClose, type }) => (
   <div
-    className="fixed bottom-4 right-4 bg-white border border-indigo-500/20 shadow-lg rounded-lg p-4 animate-slide-up"
+    className="fixed bottom-4 right-4 bg-white border border-indigo-500/20 shadow-lg rounded-lg p-3 sm:p-4 animate-slide-up"
     style={{ animation: "slideUp 0.3s ease-out", zIndex: 1000 }}
   >
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2 sm:gap-3">
       <div
-        className={`rounded-full p-1.5 ${
+        className={`rounded-full p-1 sm:p-1.5 ${
           type === "wishlist"
             ? "bg-pink-600"
             : "bg-gradient-to-r from-blue-700 to-indigo-900"
         }`}
       >
-        <Check className="w-5 h-5 text-white" />
+        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
       </div>
       <div className="flex flex-col">
-        <p className="text-sm font-medium text-gray-900">
+        <p className="text-xs sm:text-sm font-medium text-gray-900">
           {type === "wishlist" ? "Added to Wishlist!" : "Added to Cart!"}
         </p>
         <p
@@ -97,56 +97,56 @@ export default function HomeCustomersAlsoBought() {
   if (loading) return null;
 
   return (
-    <section className="py-5 px-4 sm:px-8 lg:px-16">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold heading-font">
+    <section className="py-3 px-3 sm:py-4 sm:px-6 md:px-8 lg:px-16">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 sm:mb-4 md:mb-6">
+        <h2 className="text-xl sm:text-2xl font-semibold heading-font mb-2 sm:mb-0">
           Customers Also Bought
         </h2>
         <Link
           to="/shop"
-          className="text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
+          className="text-[#004AAD] hover:underline text-sm sm:text-base font-medium backdrop-blur-sm"
         >
           Browse All Products →
         </Link>
       </div>
 
-      <div className="min-h-screen">
+      <div className="min-h-[50vh] sm:min-h-[60vh] md:min-h-screen">
         <div className="flex flex-col lg:flex-row lg:gap-3 items-stretch">
           <div className="w-full">
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-6 lg:gap-4">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-4">
               {products.map((product) => (
                 <div
                   key={product.id}
                   onClick={() => handleProductClick(product)}
-                  className="bg-white rounded-lg overflow-hidden shadow-lg group relative cursor-pointer"
+                  className="bg-white rounded-lg overflow-hidden shadow-md sm:shadow-lg group relative cursor-pointer"
                 >
-                  <div className="relative h-64">
+                  <div className="relative h-40 sm:h-48 md:h-56 lg:h-64">
                     <img
                       src={product.image1}
                       alt={product.name}
                       className="w-full h-full object-contain"
                     />
                     {product.discount && (
-                      <span className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-sm text-sm">
+                      <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-red-500 text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-sm text-xs sm:text-sm">
                         Sale
                       </span>
                     )}
                   </div>
-                  <div className="p-4">
-                    <div className="text-sm font-semibold text-gray-600 mb-1">
+                  <div className="p-2 sm:p-3 md:p-4">
+                    <div className="text-xs sm:text-sm font-semibold text-gray-600 mb-1">
                       {product.category}
                     </div>
-                    <h3 className="h-[3rem] text-gray-800 text-sm font-semibold mb-1 body-font line-clamp-3">
+                    <h3 className="h-[2.5rem] sm:h-[3rem] text-gray-800 text-xs sm:text-sm font-semibold mb-1 body-font line-clamp-2 sm:line-clamp-3">
                       {product.name}
                     </h3>
-                    <div className="flex items-center gap-2">
-                      <p className="text-[#1B6392] font-bold heading-font">
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <p className="text-[#1B6392] font-bold heading-font text-sm sm:text-base">
                         ${product.price}
                       </p>
                     </div>
-                    <div className="flex gap-1 mt-3">
+                    <div className="flex gap-1 mt-2 sm:mt-3">
                       <button
-                        className={`p-1.5 rounded-lg border transition-all duration-200 ${
+                        className={`p-1 sm:p-1.5 rounded-md sm:rounded-lg border transition-all duration-200 ${
                           isInWishlist(product.id)
                             ? "border-pink-200 bg-pink-50 hover:bg-pink-100"
                             : "border-gray-200 hover:bg-gray-50"
@@ -159,7 +159,7 @@ export default function HomeCustomersAlsoBought() {
                         }
                       >
                         <Heart
-                          className={`w-4 h-4 transition-colors ${
+                          className={`w-3 h-3 sm:w-4 sm:h-4 transition-colors ${
                             isInWishlist(product.id)
                               ? "text-pink-600 fill-pink-600"
                               : "text-gray-600"
@@ -168,10 +168,11 @@ export default function HomeCustomersAlsoBought() {
                       </button>
                       <button
                         onClick={(e) => handleAddToCart(e, product)}
-                        className="flex-1 bg-gradient-to-r from-blue-700 to-indigo-900 hover:from-[#1D267D] hover:to-[#004AAD] text-white font-bold py-1.5 px-3 rounded-lg flex items-center justify-center gap-1 text-xs"
+                        className="flex-1 bg-gradient-to-r from-blue-700 to-indigo-900 hover:from-[#1D267D] hover:to-[#004AAD] text-white font-bold py-1 sm:py-1.5 px-2 sm:px-3 rounded-md sm:rounded-lg flex items-center justify-center gap-1 text-xs"
                       >
-                        <ShoppingCart className="w-4 h-4" />
-                        Add to Cart
+                        <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span className="hidden xs:inline">Add to Cart</span>
+                        <span className="xs:hidden">Add</span>
                       </button>
                     </div>
                   </div>

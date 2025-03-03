@@ -16,7 +16,8 @@
                 "score": 4.8,
                 "reviews": 1500,
                 "source": "The Verge"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 2,
@@ -35,7 +36,8 @@
                 "score": 4.5,
                 "reviews": 1200,
                 "source": "Laptop Mag"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 3,
@@ -54,7 +56,8 @@
                 "score": 4.7,
                 "reviews": 1100,
                 "source": "Laptop Mag"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 4,
@@ -73,7 +76,8 @@
                 "score": 4.6,
                 "reviews": 900,
                 "source": "RTINGS.com"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 5,
@@ -92,7 +96,8 @@
                 "score": 4.7,
                 "reviews": 1000,
                 "source": "Tom's Hardware"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 6,
@@ -111,7 +116,8 @@
                 "score": 4.6,
                 "reviews": 950,
                 "source": "TechRadar"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 7,
@@ -130,7 +136,8 @@
                 "score": 4.5,
                 "reviews": 800,
                 "source": "The Verge"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 8,
@@ -138,7 +145,7 @@
             "price": 2499,
             "image": "asus-rog-strix-scar-17-x3d.jpg",
             "image1": "https://m.media-amazon.com/images/I/61CwSaEvRYL._AC_SX679_.jpg",
-            "image2": "https://m.media-amazon.com/images/I/81TieuosTzL._AC_SX679_.jpg",
+            "image2": "https://m.media-ampzon.com/images/I/81TieuosTzL._AC_SX679_.jpg",
             "image3": "https://m.media-amazon.com/images/I/71B5NmzrFrL._AC_SX679_.jpg",
             "image4": "https://m.media-amazon.com/images/I/41xNJV6yyWL._AC_.jpg",
             "image5": "https://m.media-amazon.com/images/I/31s5JkxeQFL._AC_.jpg",
@@ -149,7 +156,8 @@
                 "score": 4.8,
                 "reviews": 700,
                 "source": "The Verge"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 9,
@@ -168,7 +176,8 @@
                 "score": 4.9,
                 "reviews": 600,
                 "source": "Laptop Mag"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 10,
@@ -187,7 +196,8 @@
                 "score": 4.6,
                 "reviews": 750,
                 "source": "The Verge"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 11,
@@ -203,7 +213,8 @@
                 "score": 4.9,
                 "reviews": 5000,
                 "source": "TechRadar"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 12,
@@ -222,7 +233,8 @@
                 "score": 4.8,
                 "reviews": 4500,
                 "source": "Lifewire"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 13,
@@ -241,7 +253,8 @@
                 "score": 4.7,
                 "reviews": 4000,
                 "source": "Stuff"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 14,
@@ -258,7 +271,8 @@
                 "score": 4.5,
                 "reviews": 3500,
                 "source": "Tom's Guide"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 15,
@@ -277,7 +291,8 @@
                 "score": 4.6,
                 "reviews": 6000,
                 "source": "TechRadar"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 16,
@@ -296,7 +311,8 @@
                 "score": 4.4,
                 "reviews": 3000,
                 "source": "Pocket Tactics"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 17,
@@ -312,7 +328,8 @@
                 "score": 4.7,
                 "reviews": 2500,
                 "source": "GamesRadar"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 18,
@@ -330,7 +347,8 @@
                 "score": 4.8,
                 "reviews": 4000,
                 "source": "TechRadar"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 19,
@@ -347,7 +365,8 @@
                 "score": 4.6,
                 "reviews": 5000,
                 "source": "Lifewire"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 20,
@@ -362,7 +381,8 @@
                 "score": 4.9,
                 "reviews": 1000,
                 "source": "Polygon"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 21,
@@ -381,7 +401,8 @@
                 "score": 4.7,
                 "reviews": 3200,
                 "source": "The Guardian"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 22,
@@ -396,7 +417,8 @@
                 "score": 4.8,
                 "reviews": 2800,
                 "source": "The Guardian"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 23,
@@ -415,7 +437,8 @@
                 "score": 4.9,
                 "reviews": 3500,
                 "source": "The Guardian"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 24,
@@ -431,7 +454,8 @@
                 "score": 4.9,
                 "reviews": 4000,
                 "source": "The Guardian"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 25,
@@ -450,7 +474,8 @@
                 "score": 4.8,
                 "reviews": 4500,
                 "source": "New York Post"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 26,
@@ -466,7 +491,8 @@
                 "score": 4.7,
                 "reviews": 3000,
                 "source": "The Telegraph"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 27,
@@ -485,7 +511,8 @@
                 "score": 4.6,
                 "reviews": 2700,
                 "source": "WIRED"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 28,
@@ -502,7 +529,8 @@
                 "score": 4.7,
                 "reviews": 2500,
                 "source": "TechAdvisor"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 29,
@@ -519,7 +547,8 @@
                 "score": 4.6,
                 "reviews": 2300,
                 "source": "TechAdvisor"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 30,
@@ -538,7 +567,8 @@
                 "score": 4.8,
                 "reviews": 3200,
                 "source": "TechAdvisor"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 31,
@@ -557,8 +587,9 @@
                 "score": 4.8,
                 "reviews": 5000,
                 "source": "Consumer Reports"
-            }
-        }, 
+            },
+            "stock": "in stock"
+        },
         {
             "id": 32,
             "name": "Samsung Galaxy Watch Ultra",
@@ -575,7 +606,8 @@
                 "score": 4.7,
                 "reviews": 4500,
                 "source": "Consumer Reports"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 33,
@@ -594,7 +626,8 @@
                 "score": 4.6,
                 "reviews": 4000,
                 "source": "Consumer Reports"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 34,
@@ -613,7 +646,8 @@
                 "score": 4.7,
                 "reviews": 3000,
                 "source": "The Verge"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 35,
@@ -632,7 +666,8 @@
                 "score": 4.8,
                 "reviews": 6000,
                 "source": "TechRadar"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 36,
@@ -651,7 +686,8 @@
                 "score": 4.7,
                 "reviews": 5000,
                 "source": "MacRumors"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 37,
@@ -670,7 +706,8 @@
                 "score": 4.8,
                 "reviews": 4000,
                 "source": "TechRadar"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 38,
@@ -687,7 +724,8 @@
                 "score": 4.9,
                 "reviews": 8000,
                 "source": "PCMag"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 39,
@@ -706,7 +744,8 @@
                 "score": 4.6,
                 "reviews": 3000,
                 "source": "PCMag"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 40,
@@ -725,7 +764,8 @@
                 "score": 4.8,
                 "reviews": 5000,
                 "source": "IGN"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 41,
@@ -744,7 +784,8 @@
                 "score": 4.7,
                 "reviews": 4500,
                 "source": "Tom's Hardware"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 42,
@@ -763,7 +804,8 @@
                 "score": 4.8,
                 "reviews": 5500,
                 "source": "IGN"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 43,
@@ -780,7 +822,8 @@
                 "score": 4.8,
                 "reviews": 7000,
                 "source": "Tom's Hardware"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 44,
@@ -799,7 +842,8 @@
                 "score": 4.6,
                 "reviews": 3000,
                 "source": "PC Gamer"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 45,
@@ -817,7 +861,8 @@
                 "score": 4.9,
                 "reviews": 8000,
                 "source": "PC Gamer"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 46,
@@ -835,7 +880,8 @@
                 "score": 4.8,
                 "reviews": 4500,
                 "source": "TechRadar"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 47,
@@ -852,7 +898,8 @@
                 "score": 4.7,
                 "reviews": 5000,
                 "source": "CNET"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 48,
@@ -869,7 +916,8 @@
                 "score": 4.8,
                 "reviews": 6000,
                 "source": "IGN"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 49,
@@ -888,7 +936,8 @@
                 "score": 4.9,
                 "reviews": 4000,
                 "source": "Tom’s Guide"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 50,
@@ -907,7 +956,8 @@
                 "score": 4.8,
                 "reviews": 3500,
                 "source": "PCMag"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 51,
@@ -925,7 +975,8 @@
                 "score": 4.9,
                 "reviews": 8500,
                 "source": "TechRadar"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 52,
@@ -942,7 +993,8 @@
                 "score": 4.8,
                 "reviews": 7300,
                 "source": "Tom's Hardware"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 53,
@@ -960,7 +1012,8 @@
                 "score": 4.7,
                 "reviews": 6200,
                 "source": "PCMag"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 54,
@@ -977,7 +1030,8 @@
                 "score": 4.8,
                 "reviews": 4100,
                 "source": "CNET"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 55,
@@ -996,7 +1050,8 @@
                 "score": 4.9,
                 "reviews": 5700,
                 "source": "TechSpot"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 56,
@@ -1013,14 +1068,15 @@
                 "score": 4.9,
                 "reviews": 6800,
                 "source": "AnandTech"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 57,
             "name": "EVGA SuperNOVA 1000W Platinum Power Supply",
             "price": 249,
             "image": "evga-1000w.jpg",
-            "image1": "https://m.media-amazon.com/images/I/711Vu-NqwTL._AC_SX679_.jpg",
+            "image1": "https://m.media-amazon.com/images/I/711Vu-NqwTL._AC_SX679.go_.jpg",
             "image2": "https://m.media-amazon.com/images/I/81BKCO8CnUL._AC_SX679_.jpg",
             "image3": "https://m.media-amazon.com/images/I/71ibCD1TAML._AC_SX679_.jpg",
             "image4": "https://m.media-amazon.com/images/I/81W1XdMWtHL._AC_SX679_.jpg",
@@ -1032,7 +1088,8 @@
                 "score": 4.8,
                 "reviews": 4900,
                 "source": "PCWorld"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 58,
@@ -1049,7 +1106,8 @@
                 "score": 4.9,
                 "reviews": 7200,
                 "source": "Gamers Nexus"
-            }
+            },
+            "stock": "out of stock"
         },
         {
             "id": 59,
@@ -1068,7 +1126,8 @@
                 "score": 4.8,
                 "reviews": 5600,
                 "source": "Digital Trends"
-            }
+            },
+            "stock": "in stock"
         },
         {
             "id": 60,
@@ -1087,7 +1146,8 @@
                 "score": 4.9,
                 "reviews": 6300,
                 "source": "Linus Tech Tips"
-            }
+            },
+            "stock": "out of stock"
         }
     ]
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Zap } from "lucide-react";
 
-// Base64 encoded SVG background pattern
+// Base64 encoded SVG background pattern remains unchanged
 const backgroundSvg = `
 <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -88,9 +88,9 @@ const HomePromotionSection = () => {
 
   if (loading) {
     return (
-      <section className="py-5 px-4 md:px-16">
-        <div className="w-full bg-gradient-to-br from-indigo-950 via-indigo-900 to-indigo-950 p-4 md:p-6 relative rounded-xl overflow-hidden">
-          <div className="flex justify-center items-center min-h-[400px]">
+      <section className="py-3 px-3 sm:py-4 sm:px-4 md:px-6 lg:px-16">
+        <div className="w-full bg-gradient-to-br from-indigo-950 via-indigo-900 to-indigo-950 p-3 sm:p-4 md:p-6 relative rounded-xl overflow-hidden">
+          <div className="flex justify-center items-center min-h-[200px] sm:min-h-[300px] md:min-h-[400px]">
             <div className="animate-pulse text-white">Loading product...</div>
           </div>
         </div>
@@ -100,9 +100,9 @@ const HomePromotionSection = () => {
 
   if (error && !product) {
     return (
-      <section className="py-5 px-4 md:px-16">
-        <div className="w-full bg-gradient-to-br from-indigo-950 via-indigo-900 to-indigo-950 p-4 md:p-6 relative rounded-xl overflow-hidden">
-          <div className="flex justify-center items-center min-h-[400px]">
+      <section className="py-3 px-3 sm:py-4 sm:px-4 md:px-6 lg:px-16">
+        <div className="w-full bg-gradient-to-br from-indigo-950 via-indigo-900 to-indigo-950 p-3 sm:p-4 md:p-6 relative rounded-xl overflow-hidden">
+          <div className="flex justify-center items-center min-h-[200px] sm:min-h-[300px] md:min-h-[400px]">
             <div className="text-white">Error: {error}</div>
           </div>
         </div>
@@ -116,8 +116,8 @@ const HomePromotionSection = () => {
     product.originalPrice && product.originalPrice > product.price;
 
   return (
-    <section className="py-5 px-4 md:px-16">
-      <div className="w-full p-4 md:p-8 relative rounded-xl overflow-hidden bg-gradient-to-br from-indigo-950 via-indigo-900 border-2 border-opacity-10">
+    <section className="py-3 px-3 sm:py-4 sm:px-4 md:px-6 lg:px-16">
+      <div className="w-full p-3 sm:p-4 md:p-6 lg:p-8 relative rounded-xl overflow-hidden bg-gradient-to-br from-indigo-950 via-indigo-900 border-2 border-opacity-10">
         {/* Background Pattern */}
         <div className="absolute inset-0">
           <div
@@ -131,24 +131,24 @@ const HomePromotionSection = () => {
         </div>
 
         {/* Main Container */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-8 relative">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-5 md:gap-6 lg:gap-8 relative">
           {/* Left Content */}
-          <div className="lg:max-w-xl z-10">
+          <div className="w-full lg:max-w-xl z-10">
             {/* Special Tag */}
-            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm w-fit px-4 py-2 rounded-full mb-6">
-              <Zap className="w-4 h-4 text-yellow-400" />
-              <span className="text-white text-sm font-medium">
+            <div className="flex items-center gap-1 sm:gap-2 bg-white/10 backdrop-blur-sm w-fit px-2 sm:px-3 md:px-4 py-1 sm:py-2 rounded-full mb-3 sm:mb-4 md:mb-6">
+              <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
+              <span className="text-white text-xs sm:text-sm font-medium">
                 {hasDiscount ? "LIMITED TIME OFFER" : "FEATURED PRODUCT"}
               </span>
             </div>
 
             {/* Product Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            <h1 className="text-lg sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2 sm:mb-3 md:mb-4 lg:mb-6">
               {product.name}
             </h1>
 
             {/* Product Description */}
-            <p className="text-white/80 text-base md:text-lg mb-8 max-w-lg">
+            <p className="text-white/80 text-xs sm:text-sm md:text-base lg:text-lg mb-4 sm:mb-6 md:mb-8 max-w-lg">
               {product.description ||
                 "Experience our high-quality product. Perfect for all your needs."}
             </p>
@@ -156,36 +156,36 @@ const HomePromotionSection = () => {
             {/* CTA Button */}
             <button
               onClick={handleShopNow}
-              className="group bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg flex items-center gap-2 transition-all duration-300 backdrop-blur-sm"
+              className="group bg-white/10 hover:bg-white/20 text-white px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 lg:px-8 lg:py-4 rounded-lg flex items-center gap-2 transition-all duration-300 backdrop-blur-sm text-sm sm:text-base"
             >
               Shop Now
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 
           {/* Right Content - Image with Price Tag */}
-          <div className="relative flex-1 min-h-[300px] lg:min-h-[400px]">
+          <div className="relative flex-1 min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] mt-4 lg:mt-0">
             {/* Floating Price Tag */}
-            <div className="absolute top-4 right-4 z-20 bg-white/10 backdrop-blur-md rounded-2xl p-4 text-white border border-white/20">
+            <div className="absolute top-2 right-2 sm:top-3 sm:right-3 md:top-4 md:right-4 z-20 bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-4 text-white border border-white/20">
               <div className="flex flex-col items-end">
                 {hasDiscount && (
-                  <span className="text-sm line-through text-white/60 mb-1">
+                  <span className="text-xs sm:text-sm line-through text-white/60 mb-0.5 sm:mb-1">
                     ${product.originalPrice}
                   </span>
                 )}
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold">${product.price}</span>
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="text-lg sm:text-xl md:text-2xl font-bold">${product.price}</span>
                 </div>
               </div>
             </div>
 
             {/* Product Image Container */}
-            <div className="relative h-full rounded-xl overflow-hidden group">
-              <div className="absolute inset-0 " />
+            <div className="relative h-full rounded-lg sm:rounded-xl overflow-hidden group">
+              <div className="absolute inset-0" />
               <img
                 src={product.image1 || "/api/placeholder/800/600"}
                 alt={product.name}
-                className="relative z-10 object-cover p-6 transform transition-transform duration-300 product-image"
+                className="relative z-10 object-contain w-full h-full p-2 sm:p-4 md:p-6 transform transition-transform duration-300 product-image"
               />
             </div>
           </div>

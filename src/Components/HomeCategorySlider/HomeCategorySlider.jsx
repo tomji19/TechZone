@@ -23,7 +23,7 @@ export default function CategoryCards() {
             <h1 className="mb-8 sm:mb-12 md:mb-16 lg:mb-20 text-3xl sm:text-4xl md:text-5xl text-center font-semibold heading-font">
               Categories
             </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-12 justify-items-center">
+            <div className="grid grid-cols-2 gap-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 md:gap-12 justify-items-center">
               {categories.map((item, index) => (
                 <div
                   key={index}
@@ -57,11 +57,11 @@ export default function CategoryCards() {
                       to={item.link}
                       className="relative w-full max-w-[14.28rem] h-[15rem] rounded-lg border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0)] bg-[#ffffff42] transition-all duration-300 flex flex-col items-center justify-center group cursor-pointer"
                     >
-                      <div className="sm:absolute sm:-top-8 md:-top-3 transform transition-transform duration-300 group-hover:-translate-y-2 xs:mb-4">
+                      <div className="sm:absolute sm:-top-0 md:-top-3 transform transition-transform duration-300 group-hover:-translate-y-2 xs:mb-4">
                         <img
                           src={item.image}
                           alt={item.title}
-                          className="w-28 h-28 sm:w-32 sm:h-32 md:w-[12rem] md:h-[12rem] object-contain"
+                          className="w-36 h-36 sm:w-40 sm:h-40 md:w-[12rem] md:h-[12rem] object-contain"
                         />
                       </div>
                       <span className="absolute bottom-4 sm:bottom-6 text-lg sm:text-xl font-bold text-gray-800 body-font xs:pb-4">
