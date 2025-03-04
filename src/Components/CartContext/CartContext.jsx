@@ -7,9 +7,9 @@ export function CartProvider({ children }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const normalizePrice = (price) => {
-    if (typeof price === 'number') return price;
+    if (typeof price === "number") return price;
     // Handle string prices like "100 EGP" or "1,000 EGP"
-    return parseFloat(price.replace(/,/g, '').replace(' EGP', ''));
+    return parseFloat(price.replace(/,/g, "").replace(" EGP", ""));
   };
 
   const addToCart = (product) => {
@@ -24,11 +24,11 @@ export function CartProvider({ children }) {
       }
       return [
         ...prevItems,
-        { 
-          ...product, 
-          quantity: 1, 
-          price: normalizePrice(product.price)
-        }
+        {
+          ...product,
+          quantity: 1,
+          price: normalizePrice(product.price),
+        },
       ];
     });
   };
@@ -53,7 +53,14 @@ export function CartProvider({ children }) {
   };
 
   const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
   };
 
   return (
@@ -67,6 +74,7 @@ export function CartProvider({ children }) {
         getTotalPrice,
         isCartOpen,
         setIsCartOpen,
+        clearCart,
       }}
     >
       {children}

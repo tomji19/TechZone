@@ -1,40 +1,39 @@
 import React, { useState } from "react";
 import { Check, Clock } from "lucide-react";
-import classes from "../ThankYou/ThankYou.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../Pages/AuthContextYoussef/AuthContextYoussef";
 
 export default function ThankYou() {
   const [showHistory, setShowHistory] = useState(false);
-
-  const orderDetails = {
-    orderId: "ORD-2024-1234",
-    date: "February 10, 2024",
-    total: 304.97,
-    status: "Processing",
-  };
-
-  const orderHistory = [
-    {
-      id: "ORD-2024-1234",
-      date: "February 10, 2024",
-      total: 304.97,
-      status: "Processing",
-    },
-    {
-      id: "ORD-2024-1189",
-      date: "January 25, 2024",
-      total: 159.99,
-      status: "Delivered",
-    },
-    {
-      id: "ORD-2024-1156",
-      date: "January 15, 2024",
-      total: 249.5,
-      status: "Delivered",
-    },
-  ];
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const { userData } = useAuth();
+
+  // Get the latest order (assumes last order in array is the most recent)
+  const latestOrder =
+    userData.orders.length > 0
+      ? userData.orders[userData.orders.length - 1]
+      : null;
+
+  // Get payment method from location.state if available
+  const paymentMethod =
+    location.state?.paymentMethod ||
+    (latestOrder ? latestOrder.paymentMethod : "Unknown");
+
+  // Use latest order details if available, otherwise fallback to static placeholder
+  const orderDetails = latestOrder
+    ? {
+        orderId: latestOrder.id,
+        date: new Date(latestOrder.date).toLocaleString(),
+        total: latestOrder.total,
+        status: latestOrder.status,
+      }
+    : {
+        orderId: "ORD-2024-1234",
+        date: "February 10, 2024",
+        total: 304.97,
+        status: "Processing",
+      };
 
   return (
     <>
@@ -51,6 +50,9 @@ export default function ThankYou() {
               </div>
               <h2 className="text-3xl font-semibold mb-2">Order Confirmed</h2>
               <p className="text-gray-600">Order #{orderDetails.orderId}</p>
+              <p className="text-gray-600 mb-2">
+                Payment Method: {paymentMethod}
+              </p>
               <p className="text-gray-600 mb-6">
                 We'll send you shipping confirmation when your order ships
               </p>
@@ -67,43 +69,54 @@ export default function ThankYou() {
               <div className="border bg-white shadow-sm p-6">
                 <h3 className="text-xl font-semibold mb-4">Order History</h3>
                 <div className="space-y-4">
-                  {orderHistory.map((order) => (
-                    <div key={order.id} className="border-b pb-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <p className="font-medium">Order #{order.id}</p>
-                          <p className="text-sm text-gray-600">{order.date}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-medium">
-                            ${order.total.toFixed(2)}
-                          </p>
-                          <p className="text-sm">
-                            <span
-                              className={`inline-flex items-center gap-1 ${
-                                order.status === "Delivered"
-                                  ? "text-green-600"
-                                  : "text-blue-600"
-                              }`}
-                            >
-                              {order.status === "Delivered" ? (
-                                <Check size={14} />
-                              ) : (
-                                <Clock size={14} />
-                              )}
-                              {order.status}
-                            </span>
-                          </p>
+                  {userData.orders.length === 0 ? (
+                    <p className="text-gray-500 text-center">
+                      No order history available
+                    </p>
+                  ) : (
+                    userData.orders.map((order) => (
+                      <div key={order.id} className="border-b pb-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <p className="font-medium">Order #{order.id}</p>
+                            <p className="text-sm text-gray-600">
+                              {new Date(order.date).toLocaleString()}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-medium">
+                              {order.total.toLocaleString()} EGP
+                            </p>
+                            <p className="text-sm">
+                              <span
+                                className={`inline-flex items-center gap-1 ${
+                                  order.status === "Delivered"
+                                    ? "text-green-600"
+                                    : "text-blue-600"
+                                }`}
+                              >
+                                {order.status === "Delivered" ? (
+                                  <Check size={14} />
+                                ) : (
+                                  <Clock size={14} />
+                                )}
+                                {order.status}
+                              </span>
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </div>
             )}
 
             <div className="text-center mt-8">
-              <button className="bg-gray-900 hover:bg-gray-800 text-white py-2 px-6 rounded">
+              <button
+                onClick={() => navigate("/shop")}
+                className="bg-gray-900 hover:bg-gray-800 text-white py-2 px-6 rounded"
+              >
                 Continue Shopping
               </button>
             </div>

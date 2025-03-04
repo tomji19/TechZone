@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import classes from "./AuthContextYoussef.module.css";
 import { supabase } from "../supabase/supabase";
 
 const AuthContext = createContext();
@@ -11,12 +10,11 @@ export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState({
     wishlist: [],
     orders: [],
+    addresses: [], // Ensure addresses is always initialized
   });
 
-  // Initialize from localStorage and Supabase on mount
   useEffect(() => {
     const initializeAuth = async () => {
-      // Get user and session from Supabase
       const {
         data: { user },
         error: userError,
@@ -27,10 +25,15 @@ export const AuthProvider = ({ children }) => {
       if (user && !userError && sessionData?.session && !sessionError) {
         setUser(user);
         setToken(sessionData.session.access_token);
-        // Load user data from localStorage if it exists
         const storedData = localStorage.getItem(`userData_${user.id}`);
         if (storedData) {
-          setUserData(JSON.parse(storedData));
+          const parsedData = JSON.parse(storedData);
+          // Ensure addresses exists in stored data
+          setUserData({
+            wishlist: parsedData.wishlist || [],
+            orders: parsedData.orders || [],
+            addresses: parsedData.addresses || [],
+          });
         }
       }
       setLoading(false);
@@ -38,7 +41,6 @@ export const AuthProvider = ({ children }) => {
 
     initializeAuth();
 
-    // Listen for auth state changes
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         if (session) {
@@ -48,14 +50,19 @@ export const AuthProvider = ({ children }) => {
             `userData_${session.user.id}`
           );
           if (storedData) {
-            setUserData(JSON.parse(storedData));
+            const parsedData = JSON.parse(storedData);
+            setUserData({
+              wishlist: parsedData.wishlist || [],
+              orders: parsedData.orders || [],
+              addresses: parsedData.addresses || [],
+            });
           } else {
-            setUserData({ wishlist: [], orders: [] });
+            setUserData({ wishlist: [], orders: [], addresses: [] });
           }
         } else {
           setUser(null);
           setToken(null);
-          setUserData({ wishlist: [], orders: [] });
+          setUserData({ wishlist: [], orders: [], addresses: [] });
         }
         setLoading(false);
       }
@@ -64,7 +71,6 @@ export const AuthProvider = ({ children }) => {
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  // Save user data to localStorage whenever it changes
   useEffect(() => {
     if (user) {
       localStorage.setItem(`userData_${user.id}`, JSON.stringify(userData));
@@ -76,16 +82,12 @@ export const AuthProvider = ({ children }) => {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          data: {
-            display_name: displayName,
-          },
-        },
+        options: { data: { display_name: displayName } },
       });
       if (error) throw error;
       setUser(data.user);
       setToken(data.session?.access_token);
-      setUserData({ wishlist: [], orders: [] }); // Initialize empty data for new user
+      setUserData({ wishlist: [], orders: [], addresses: [] });
       return {
         user: data.user,
         token: data.session?.access_token,
@@ -105,11 +107,17 @@ export const AuthProvider = ({ children }) => {
       if (error) throw error;
       setUser(data.user);
       setToken(data.session.access_token);
-      // Load existing data or initialize new
       const storedData = localStorage.getItem(`userData_${data.user.id}`);
-      setUserData(
-        storedData ? JSON.parse(storedData) : { wishlist: [], orders: [] }
-      );
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        setUserData({
+          wishlist: parsedData.wishlist || [],
+          orders: parsedData.orders || [],
+          addresses: parsedData.addresses || [],
+        });
+      } else {
+        setUserData({ wishlist: [], orders: [], addresses: [] });
+      }
       return { user: data.user, token: data.session.access_token, error: null };
     } catch (error) {
       return { user: null, token: null, error };
@@ -120,19 +128,17 @@ export const AuthProvider = ({ children }) => {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      // Clear everything on logout
       if (user) {
         localStorage.removeItem(`userData_${user.id}`);
       }
       setUser(null);
       setToken(null);
-      setUserData({ wishlist: [], orders: [] });
+      setUserData({ wishlist: [], orders: [], addresses: [] });
     } catch (error) {
       console.error("Error signing out:", error);
     }
   };
 
-  // Functions to manage wishlist
   const addToWishlist = (item) => {
     setUserData((prev) => ({
       ...prev,
@@ -147,7 +153,6 @@ export const AuthProvider = ({ children }) => {
     }));
   };
 
-  // Functions to manage orders
   const addOrder = (order) => {
     setUserData((prev) => ({
       ...prev,
@@ -155,6 +160,20 @@ export const AuthProvider = ({ children }) => {
         ...prev.orders,
         { ...order, id: Date.now(), date: new Date().toISOString() },
       ],
+    }));
+  };
+
+  const removeOrder = (orderId) => {
+    setUserData((prev) => ({
+      ...prev,
+      orders: prev.orders.filter((order) => order.id !== orderId),
+    }));
+  };
+
+  const addAddress = (address) => {
+    setUserData((prev) => ({
+      ...prev,
+      addresses: [...(prev.addresses || []), { ...address, id: Date.now() }], // Fallback to empty array if undefined
     }));
   };
 
@@ -169,6 +188,8 @@ export const AuthProvider = ({ children }) => {
     addToWishlist,
     removeFromWishlist,
     addOrder,
+    removeOrder,
+    addAddress,
   };
 
   return (

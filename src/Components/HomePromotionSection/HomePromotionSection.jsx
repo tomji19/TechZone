@@ -165,20 +165,6 @@ const HomePromotionSection = () => {
 
           {/* Right Content - Image with Price Tag */}
           <div className="relative flex-1 min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] mt-4 lg:mt-0">
-            {/* Floating Price Tag */}
-            <div className="absolute top-2 right-2 sm:top-3 sm:right-3 md:top-4 md:right-4 z-20 bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-2 sm:p-3 md:p-4 text-white border border-white/20">
-              <div className="flex flex-col items-end">
-                {hasDiscount && (
-                  <span className="text-xs sm:text-sm line-through text-white/60 mb-0.5 sm:mb-1">
-                    ${product.originalPrice}
-                  </span>
-                )}
-                <div className="flex items-center gap-1 sm:gap-2">
-                  <span className="text-lg sm:text-xl md:text-2xl font-bold">${product.price}</span>
-                </div>
-              </div>
-            </div>
-
             {/* Product Image Container */}
             <div className="relative h-full rounded-lg sm:rounded-xl overflow-hidden group">
               <div className="absolute inset-0" />

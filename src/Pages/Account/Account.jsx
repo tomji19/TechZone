@@ -10,7 +10,7 @@ import {
   CreditCard,
   Edit,
   Menu,
-  Trash2,
+  X,
 } from "lucide-react";
 import { useCart } from "../../Components/CartContext/CartContext";
 import { useAuth } from "../../Pages/AuthContextYoussef/AuthContextYoussef";
@@ -27,6 +27,7 @@ export default function Account() {
     addToWishlist,
     removeFromWishlist,
     signOut,
+    removeOrder,
     loading,
   } = useAuth();
   const navigate = useNavigate();
@@ -59,11 +60,7 @@ export default function Account() {
     },
   ];
 
-  const addresses = [
-    { id: 1, type: "Home", address: "123 Main St, City, State 12345" },
-    { id: 2, type: "Work", address: "456 Office Ave, City, State 12345" },
-  ];
-
+  // Static cards until we integrate payment fully
   const cards = [
     { id: 1, type: "Visa", last4: "4567" },
     { id: 2, type: "Mastercard", last4: "8901" },
@@ -92,7 +89,17 @@ export default function Account() {
     navigate("/login");
   };
 
+  const handleRemoveOrder = (orderId) => {
+    removeOrder(orderId);
+  };
+
   if (loading || !user) return null;
+
+  // Get the most recent address as default
+  const defaultAddress =
+    userData.addresses.length > 0
+      ? userData.addresses[userData.addresses.length - 1]
+      : null;
 
   return (
     <section className="py-5 px-4 sm:px-8 lg:px-16 bg-gray-50">
@@ -166,13 +173,15 @@ export default function Account() {
                     <h3 className="text-base lg:text-lg font-semibold mb-3">
                       Default Address
                     </h3>
-                    {addresses[0] && (
+                    {defaultAddress ? (
                       <div className="flex items-center space-x-2">
                         <MapPin className="w-5 h-5 text-[#3b3ccd]" />
                         <span className="text-sm lg:text-base">
-                          {addresses[0].address}
+                          {defaultAddress.address}
                         </span>
                       </div>
+                    ) : (
+                      <p className="text-sm text-gray-500">No address set</p>
                     )}
                   </div>
                   <div className="bg-gray-50 p-3 lg:p-4 rounded-lg">
@@ -209,7 +218,7 @@ export default function Account() {
                               Order #{order.id}
                             </span>
                             <span className="lg:hidden font-medium">
-                              ${order.total.toFixed(2)}
+                              {order.total.toLocaleString()} EGP
                             </span>
                           </div>
                           <div className="flex justify-between items-center lg:text-right">
@@ -218,7 +227,7 @@ export default function Account() {
                             </span>
                             <div className="lg:ml-6">
                               <span className="hidden lg:block font-medium">
-                                ${order.total.toFixed(2)}
+                                {order.total.toLocaleString()} EGP
                               </span>
                               <span className="text-sm text-gray-500">
                                 {order.status}
@@ -293,9 +302,8 @@ export default function Account() {
                             </h3>
                             <div className="flex items-center justify-between mt-2">
                               <p className="font-bold text-[#3b3ccd]">
-                                $
                                 {typeof item.price === "number"
-                                  ? item.price.toFixed(2)
+                                  ? `${item.price.toLocaleString()} EGP`
                                   : item.price}
                               </p>
                               <button
@@ -340,14 +348,17 @@ export default function Account() {
                 ) : (
                   <div className="space-y-3">
                     {userData.orders.map((order) => (
-                      <div key={order.id} className="p-4 border rounded-lg">
-                        <div className="flex flex-col lg:flex-row lg:items-center lg: justify-between">
+                      <div
+                        key={order.id}
+                        className="p-4 border rounded-lg flex justify-between items-center"
+                      >
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between w-full">
                           <div className="flex justify-between lg:block mb-2 lg:mb-0">
                             <span className="font-medium text-sm lg:text-base">
                               Order #{order.id}
                             </span>
                             <span className="lg:hidden font-medium">
-                              ${order.total.toFixed(2)}
+                              {order.total.toLocaleString()} EGP
                             </span>
                           </div>
                           <div className="flex justify-between items-center lg:text-right">
@@ -356,7 +367,7 @@ export default function Account() {
                             </span>
                             <div className="lg:ml-6">
                               <span className="hidden lg:block font-medium">
-                                ${order.total.toFixed(2)}
+                                {order.total.toLocaleString()} EGP
                               </span>
                               <span className="text-sm text-gray-500">
                                 {order.status}
@@ -364,11 +375,12 @@ export default function Account() {
                             </div>
                           </div>
                         </div>
-                        <div className="mt-2">
-                          <p className="text-sm text-gray-600">
-                            Items: {order.items.length}
-                          </p>
-                        </div>
+                        <button
+                          onClick={() => handleRemoveOrder(order.id)}
+                          className="ml-4 text-gray-400 hover:text-red-500 transition-colors"
+                        >
+                          <X size={16} />
+                        </button>
                       </div>
                     ))}
                   </div>
@@ -376,56 +388,129 @@ export default function Account() {
               </div>
             )}
             {activeTab === "addresses" && (
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div>
-                  <h3 className="text-base lg:text-lg font-semibold mb-4">
+                  <h3 className="text-xl font-semibold mb-6 text-gray-800">
                     Saved Addresses
                   </h3>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    {addresses.map((address) => (
-                      <div
-                        key={address.id}
-                        className="p-3 lg:p-4 border rounded-lg"
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center space-x-2">
-                            <MapPin className="w-5 h-5 text-[#3b3ccd]" />
-                            <span className="font-medium text-sm lg:text-base">
-                              {address.type}
-                            </span>
+                  {userData.addresses.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">
+                      <MapPin className="w-12 h-12 mx-auto text-gray-400 mb-2" />
+                      <p>
+                        No saved addresses yet. Complete a checkout to add one!
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {userData.addresses.map((address) => {
+                        // Ensure address.address exists and is a string before splitting
+                        if (
+                          !address.address ||
+                          typeof address.address !== "string"
+                        ) {
+                          return (
+                            <div
+                              key={address.id}
+                              className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+                            >
+                              <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center space-x-3">
+                                  <MapPin className="w-6 h-6 text-[#3b3ccd]" />
+                                  <h4 className="text-lg font-medium text-gray-800">
+                                    {address.type || "Unknown"}
+                                  </h4>
+                                </div>
+                                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                  <Edit className="w-5 h-5 text-[#3b3ccd]" />
+                                </button>
+                              </div>
+                              <p className="text-sm text-gray-600">
+                                Invalid address data
+                              </p>
+                            </div>
+                          );
+                        }
+
+                        // Parse address string safely
+                        const addressParts = address.address.split(", ");
+                        const street = addressParts[0] || "";
+                        const rest = addressParts.slice(1).join(", ");
+                        const [city, stateZipCountry] = rest.split(", ") || [
+                          "",
+                          "",
+                        ];
+                        const [state, zipCountry] = stateZipCountry
+                          ? stateZipCountry.split(" ")
+                          : ["", ""];
+                        const [zip, country] = zipCountry
+                          ? zipCountry.split(" ")
+                          : ["", ""];
+
+                        return (
+                          <div
+                            key={address.id}
+                            className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+                          >
+                            <div className="flex items-center justify-between mb-4">
+                              <div className="flex items-center space-x-3">
+                                <MapPin className="w-6 h-6 text-[#3b3ccd]" />
+                                <h4 className="text-lg font-medium text-gray-800">
+                                  {address.type}
+                                </h4>
+                              </div>
+                              <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                <Edit className="w-5 h-5 text-[#3b3ccd]" />
+                              </button>
+                            </div>
+                            <div className="space-y-2 text-sm text-gray-600">
+                              {/* Placeholder for name since Checkout doesn’t save it separately */}
+                              <p className="font-semibold text-gray-700">
+                                {user.user_metadata?.display_name ||
+                                  user.email.split("@")[0]}
+                              </p>
+                              <p>{street}</p>
+                              <p>
+                                {city}
+                                {city && state ? ", " : ""}
+                                {state} {zip}
+                              </p>
+                              <p>{country}</p>
+                            </div>
+                            <div className="mt-4 pt-4 border-t border-gray-100">
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                {address.type}
+                              </span>
+                            </div>
                           </div>
-                          <button className="p-1.5 hover:bg-gray-100 rounded-full">
-                            <Edit className="w-4 h-4 text-[#3b3ccd]" />
-                          </button>
-                        </div>
-                        <p className="text-sm text-gray-500">
-                          {address.address}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
                 <div>
-                  <h3 className="text-base lg:text-lg font-semibold mb-4">
+                  <h3 className="text-xl font-semibold mb-6 text-gray-800">
                     Saved Cards
                   </h3>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {cards.map((card) => (
                       <div
                         key={card.id}
-                        className="p-3 lg:p-4 border rounded-lg"
+                        className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
                       >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-2">
-                            <CreditCard className="w-5 h-5 text-[#3b3ccd]" />
-                            <span className="font-medium text-sm lg:text-base">
-                              {card.type} ending in {card.last4}
-                            </span>
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center space-x-3">
+                            <CreditCard className="w-6 h-6 text-[#3b3ccd]" />
+                            <h4 className="text-lg font-medium text-gray-800">
+                              {card.type}
+                            </h4>
                           </div>
-                          <button className="p-1.5 hover:bg-gray-100 rounded-full">
-                            <Edit className="w-4 h-4 text-[#3b3ccd]" />
+                          <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                            <Edit className="w-5 h-5 text-[#3b3ccd]" />
                           </button>
                         </div>
+                        <p className="text-sm text-gray-600">
+                          Ending in {card.last4}
+                        </p>
                       </div>
                     ))}
                   </div>
