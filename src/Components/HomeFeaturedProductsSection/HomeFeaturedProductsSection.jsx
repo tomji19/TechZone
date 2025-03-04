@@ -183,10 +183,11 @@ export default function HomeFeaturedProductsSection() {
   if (loading) return null;
 
   return (
-    <section className="py-5 px-4 sm:px-8 lg:px-16">
+    <section className="py-4 sm:py-5 px-3 sm:px-4 md:px-8 lg:px-16">
       <div className="min-h-screen">
-        <div className="flex flex-col lg:flex-row lg:gap-7">
-          <div className="hidden lg:flex flex-col w-[26%] h-full gap-6 sticky top-0">
+        <div className="flex flex-col lg:flex-row lg:gap-8 xl:gap-10">
+          {/* Promotional Banners - Hidden on xs/sm/md, visible on lg+ */}
+          <div className="hidden lg:flex flex-col lg:w-1/4 xl:w-1/5 h-full gap-6 sticky top-0">
             <div className="relative h-1/2 bg-[#e0e7ff] rounded-xl shadow-sm overflow-hidden flex flex-col items-center justify-center text-center group border border-indigo-100 hover:border-indigo-200 transition-colors duration-300">
               <div className="absolute inset-0">
                 <svg
@@ -348,54 +349,126 @@ export default function HomeFeaturedProductsSection() {
               </div>
             </div>
           </div>
-          <div className="w-full">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-semibold heading-font">
+
+          {/* Small Banner for xs/sm screens */}
+          <div className="lg:hidden mb-6">
+            <div className="relative bg-[#e0e7ff] rounded-xl shadow-sm overflow-hidden p-4 sm:p-6 border border-indigo-100">
+              <div className="absolute inset-0">
+                <svg
+                  width="100%"
+                  height="100%"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="opacity-10"
+                >
+                  <defs>
+                    <pattern
+                      id="mobilePattern"
+                      width="40"
+                      height="40"
+                      patternUnits="userSpaceOnUse"
+                    >
+                      <path
+                        d="M20 5 L35 20 L20 35 L5 20 Z"
+                        fill="none"
+                        stroke="#4F46E5"
+                        strokeWidth="0.5"
+                      />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#mobilePattern)" />
+                </svg>
+              </div>
+              <div className="flex flex-row justify-between items-center relative z-10">
+                <div className="flex-1">
+                  <div className="bg-indigo-50 inline-block px-2 py-0.5 rounded-full border border-indigo-200 mb-2">
+                    <span className="text-xs font-semibold text-indigo-700">
+                      RAMADAN SPECIAL
+                    </span>
+                  </div>
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-1">
+                    Ramadan Collection
+                  </h2>
+                  <p className="text-xs sm:text-sm text-gray-600 mb-2">
+                    Premium tech with special offers
+                  </p>
+                  <div className="inline-block bg-white border border-indigo-200 px-2 py-1 rounded-lg mb-2">
+                    <span className="font-bold text-indigo-700 text-sm sm:text-base">
+                      Up to 40% OFF
+                    </span>
+                  </div>
+                </div>
+                <div className="w-20 sm:w-24 ml-2">
+                  <img
+                    src={airpod}
+                    alt="Wireless Earbuds"
+                    className="w-full h-auto object-contain drop-shadow-lg"
+                  />
+                </div>
+              </div>
+              <button
+                onClick={() => navigate("/shop")}
+                className="w-full mt-2 py-2 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold px-3 rounded-lg text-xs flex items-center justify-center gap-1"
+              >
+                Explore Collection
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
+
+          {/* Products Grid */}
+          <div className="w-full lg:flex-1">
+            <div className="flex justify-between items-center mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-semibold heading-font">
                 Featured Products
               </h2>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center">
                 <Link
                   to="/shop"
-                  className="text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
+                  className="text-sm sm:text-base text-[#004AAD] hover:underline font-medium backdrop-blur-sm"
                 >
-                  Browse All Products →
+                  Browse All →
                 </Link>
               </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-4">
+            {/* Updated grid with better responsiveness */}
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 xs:gap-4 sm:gap-4 lg:gap-5">
               {products.map((product) => (
                 <div
                   key={product.id}
                   onClick={() => handleProductClick(product)}
-                  className="bg-white rounded-lg overflow-hidden shadow-lg group relative cursor-pointer"
+                  className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 group relative cursor-pointer"
                 >
-                  <div className="relative h-64">
+                  {/* Improved image height */}
+                  <div className="relative h-48 xs:h-40 sm:h-44 md:h-52 lg:h-48 xl:h-52">
                     <img
                       src={product.image1}
                       alt={product.name}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain p-2"
                     />
                     {product.discount && (
-                      <span className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-sm text-sm">
+                      <span className="absolute top-2 left-2 bg-red-500 text-white px-1.5 py-0.5 rounded-sm text-xs">
                         Sale
                       </span>
                     )}
                   </div>
-                  <div className="p-4">
-                    <div className="text-sm font-semibold text-gray-600 mb-1">
+                  {/* Adjusted padding for better spacing */}
+                  <div className="p-3 sm:p-3 lg:p-4">
+                    <div className="text-xs sm:text-xs lg:text-sm font-semibold text-gray-600 mb-1">
                       {product.category}
                     </div>
-                    <h3 className="h-[3rem] text-gray-800 text-sm font-semibold mb-1 body-font line-clamp-3">
+                    {/* Adjusted height for product name */}
+                    <h3 className="h-[2.5rem] xs:h-[2.75rem] sm:h-[2.5rem] lg:h-[2.5rem] xl:h-[2.75rem] text-gray-800 text-xs sm:text-xs lg:text-sm font-semibold mb-1 body-font line-clamp-2">
                       {product.name}
                     </h3>
                     <div className="flex items-center gap-2">
-                      <p className="text-[#1B6392] font-bold heading-font">
+                      <p className="text-[#1B6392] font-bold heading-font text-sm sm:text-sm lg:text-base">
                         ${product.price}
                       </p>
                     </div>
-                    <div className="flex gap-1 mt-3">
+                    {/* Better sized buttons */}
+                    <div className="flex gap-1 mt-2 sm:mt-2 lg:mt-3">
                       <button
-                        className={`p-1.5 rounded-lg border transition-all duration-200 ${
+                        className={`p-1 sm:p-1 lg:p-1.5 rounded-lg border transition-all duration-200 ${
                           isInWishlist(product.id)
                             ? "border-pink-200 bg-pink-50 hover:bg-pink-100"
                             : "border-gray-200 hover:bg-gray-50"
@@ -408,7 +481,7 @@ export default function HomeFeaturedProductsSection() {
                         }
                       >
                         <Heart
-                          className={`w-4 h-4 transition-colors ${
+                          className={`w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 transition-colors ${
                             isInWishlist(product.id)
                               ? "text-pink-600 fill-pink-600"
                               : "text-gray-600"
@@ -417,10 +490,14 @@ export default function HomeFeaturedProductsSection() {
                       </button>
                       <button
                         onClick={(e) => handleAddToCart(e, product)}
-                        className="flex-1 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold py-1.5 px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] flex items-center justify-center gap-1 text-xs"
+                        className="flex-1 bg-gradient-to-r from-blue-700 to-indigo-900 text-white font-bold py-1 sm:py-1 lg:py-1.5 px-2 sm:px-2 lg:px-3 rounded-lg hover:from-[#1D267D] hover:to-[#004AAD] flex items-center justify-center gap-1 text-xs"
                       >
-                        <ShoppingCart className="w-4 h-4" />
-                        Add to Cart
+                        <ShoppingCart className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4" />
+                        {/* Show text based on screen size */}
+                        <span className="hidden sm:inline lg:inline">
+                          Add to Cart
+                        </span>
+                        <span className="sm:hidden lg:hidden">Add</span>
                       </button>
                     </div>
                   </div>
@@ -464,6 +541,27 @@ export default function HomeFeaturedProductsSection() {
         }
         .heart-beat {
           animation: heartBeat 1s;
+        }
+        /* Extra small screen support */
+        @media (max-width: 640px) {
+          .xs\\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+          .xs\\:gap-4 {
+            gap: 1rem;
+          }
+          .xs\\:h-40 {
+            height: 10rem;
+          }
+          .xs\\:h-\\[2\\.75rem\\] {
+            height: 2.75rem;
+          }
+          .xs\\:hidden {
+            display: none;
+          }
+          .xs\\:inline {
+            display: inline;
+          }
         }
       `}</style>
     </section>

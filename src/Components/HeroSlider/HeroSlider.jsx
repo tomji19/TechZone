@@ -123,7 +123,7 @@ const XboxSlider = () => {
       if (!isLoading) {
         setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
       }
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(timer);
   }, [isLoading]);
@@ -288,7 +288,7 @@ const XboxSlider = () => {
         ))}
 
         {/* Navigation Arrows - Visible only on non-mobile */}
-        {!isMobile && (
+        {/* {!isMobile && (
           <>
             <button
               onClick={prevSlide}
@@ -305,7 +305,7 @@ const XboxSlider = () => {
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             </button>
           </>
-        )}
+        )} */}
 
         {/* Mobile swipe instruction - Only visible on first load for mobile */}
         {isMobile && (

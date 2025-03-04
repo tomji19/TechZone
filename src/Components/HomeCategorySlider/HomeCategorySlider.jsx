@@ -4,7 +4,8 @@ import card3 from "../../assets/console1.png";
 import card4 from "../../assets/smartphone.png";
 import card5 from "../../assets/laptop.png";
 import card6 from "../../assets/case.png";
-import { Link } from "react-router-dom"; // Import useLocation
+import { Link } from "react-router-dom";
+
 export default function CategoryCards() {
   const categories = [
     { isPromo: true },
@@ -23,17 +24,18 @@ export default function CategoryCards() {
             <h1 className="mb-8 sm:mb-12 md:mb-16 lg:mb-20 text-3xl sm:text-4xl md:text-5xl text-center font-semibold heading-font">
               Categories
             </h1>
-            <div className="grid grid-cols-2 gap-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 md:gap-12 justify-items-center">
+            <div className="grid grid-cols-2 gap-7 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-6 md:gap-8 lg:gap-12 justify-items-center">
               {categories.map((item, index) => (
                 <div
                   key={index}
-                  className={`relative w-full max-w-[14.28rem] ${item.isPromo
-                      ? "flex flex-col justify-center"
-                      : "h-[15rem] rounded-lg border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0)] bg-[#ffffff42] transition-all duration-300 flex flex-col items-center justify-center group cursor-pointer"
-                    }`}
+                  className={`relative w-full max-w-[14.28rem] ${
+                    item.isPromo
+                      ? "hidden lg:flex lg:flex-col lg:justify-center"
+                      : "h-[12rem] sm:h-[14rem] md:h-[15rem] rounded-lg border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0)] bg-[#ffffff42] transition-all duration-300 flex flex-col items-center justify-center group cursor-pointer"
+                  }`}
                 >
                   {item.isPromo ? (
-                    <div className="w-56 h-56 flex flex-col items-center justify-center rounded-lg border-black border-2">
+                    <div className="w-full h-full flex flex-col items-center justify-center rounded-lg border-black border-2">
                       <div className="text-[0.7rem] font-medium text-black bg-black/10 px-3 py-1 rounded-full backdrop-blur-sm">
                         Limited Time Offer
                       </div>
@@ -43,28 +45,26 @@ export default function CategoryCards() {
                       <div className="mt-2 text-sm font-semibold text-black text-center">
                         On selected items
                       </div>
-                      <a
-                        
+                      <Link
+                        to="/shop"
                         className="mt-4 px-6 py-2 bg-black/10 hover:bg-black/20 text-black rounded-md text-sm font-medium transition-all duration-200"
-                      > <Link to="/shop">Shop Now</Link>
-                        
-                      </a>
+                      >
+                        Shop Now
+                      </Link>
                     </div>
                   ) : (
-
                     <Link
-                      key={index}
                       to={item.link}
-                      className="relative w-full max-w-[14.28rem] h-[15rem] rounded-lg border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0)] bg-[#ffffff42] transition-all duration-300 flex flex-col items-center justify-center group cursor-pointer"
+                      className="relative w-full h-full rounded-lg border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0)] bg-[#ffffff42] transition-all duration-300 flex flex-col items-center justify-center group cursor-pointer"
                     >
-                      <div className="sm:absolute sm:-top-0 md:-top-3 transform transition-transform duration-300 group-hover:-translate-y-2 xs:mb-4">
+                      <div className="transform transition-transform duration-300 group-hover:-translate-y-2 mb-2 sm:mb-0 sm:absolute sm:-top-0 md:-top-3">
                         <img
                           src={item.image}
                           alt={item.title}
-                          className="w-36 h-36 sm:w-40 sm:h-40 md:w-[12rem] md:h-[12rem] object-contain"
+                          className="w-40 h-40 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-[12rem] lg:h-[12rem] object-contain"
                         />
                       </div>
-                      <span className="absolute bottom-4 sm:bottom-6 text-lg sm:text-xl font-bold text-gray-800 body-font xs:pb-4">
+                      <span className="text-center text-xl sm:text-lg md:text-xl font-bold text-gray-800 body-font sm:absolute sm:bottom-4 md:bottom-6">
                         {item.title}
                       </span>
                     </Link>
