@@ -22,6 +22,10 @@ import Gaming from "./Pages/Gaming/Gaming";
 import Smartphones from "./Pages/Smartphones/Smartphones";
 import WearablesAccessories from "./Pages/WearablesAccessories/WearablesAccessories";
 import PCComponents from "./Pages/PCComponents/PCComponents";
+import AboutUs from "./Pages/AboutUs/AboutUs";
+import Customersupport from "./Pages/Customersupport/Customersupport";
+
+
 
 export default function App() {
   const router = createBrowserRouter([
@@ -43,6 +47,8 @@ export default function App() {
         { path: "/card", element: <ProductCard /> },
         { path: "*", element: <ErrorPage /> },
         { path: "/cart", element: <Cart /> }, // Cart doesn't need protection since anyone can view it
+        { path: "/aboutus", element: <AboutUs /> },
+        { path: "/customersupport", element: <Customersupport/> },
         {
           element: <ProtectedRoute />,
           children: [
