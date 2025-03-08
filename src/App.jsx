@@ -25,8 +25,6 @@ import PCComponents from "./Pages/PCComponents/PCComponents";
 import AboutUs from "./Pages/AboutUs/AboutUs";
 import Customersupport from "./Pages/Customersupport/Customersupport";
 
-
-
 export default function App() {
   const router = createBrowserRouter([
     {
@@ -48,7 +46,7 @@ export default function App() {
         { path: "*", element: <ErrorPage /> },
         { path: "/cart", element: <Cart /> }, // Cart doesn't need protection since anyone can view it
         { path: "/aboutus", element: <AboutUs /> },
-        { path: "/customersupport", element: <Customersupport/> },
+        { path: "/customersupport", element: <Customersupport /> },
         {
           element: <ProtectedRoute />,
           children: [

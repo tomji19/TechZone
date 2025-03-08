@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -9,6 +9,7 @@ const SearchBar = () => {
   const [allProducts, setAllProducts] = useState([]);
   const searchRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Fetch all products from API when component mounts
   useEffect(() => {
@@ -24,20 +25,22 @@ const SearchBar = () => {
         console.error("Error fetching products:", error);
       }
     };
-
     fetchProducts();
   }, []);
+
+  // Reset search term when location changes
+  useEffect(() => {
+    setSearchTerm("");
+    setIsSearching(false);
+  }, [location.pathname]);
 
   // Filter products based on search term
   useEffect(() => {
     if (searchTerm.trim()) {
       setIsSearching(true);
-
-      // Filter products starting with the entered letters (case insensitive)
       const results = allProducts.filter((product) =>
         product.name.toLowerCase().startsWith(searchTerm.toLowerCase())
       );
-
       setSearchResults(results);
     } else {
       setIsSearching(false);
@@ -59,7 +62,7 @@ const SearchBar = () => {
   }, []);
 
   const handleProductClick = (product) => {
-    navigate(`/product/${product.id}`, { state: { product } });
+    navigate(`/product/${product.id}`);
     setSearchTerm("");
     setIsSearching(false);
   };
@@ -73,7 +76,6 @@ const SearchBar = () => {
 
   return (
     <div ref={searchRef} className="relative w-full max-w-md mx-auto">
-      {/* Enhanced Search Input */}
       <form onSubmit={handleSubmit} className="w-full">
         <div className="relative">
           <input
@@ -92,7 +94,6 @@ const SearchBar = () => {
         </div>
       </form>
 
-      {/* Search Results Dropdown - Contained within search bar width */}
       {isSearching && searchResults.length > 0 && (
         <div className="absolute z-20 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
           <ul className="max-h-72 overflow-y-auto">
@@ -103,13 +104,11 @@ const SearchBar = () => {
                 onClick={() => handleProductClick(product)}
               >
                 <div className="flex justify-between items-center">
-                  <span className="font-medium text-gray-800">
-                    {product.name}
-                  </span>
+                  <span className="font-medium text-gray-800">{product.name}</span>
                   {product.price && (
                     <span className="text-indigo-600 font-bold">
                       {typeof product.price === "number"
-                        ? product.price.toLocaleString() + " EGP"
+                        ? `$${product.price.toLocaleString()}`
                         : product.price}
                     </span>
                   )}
